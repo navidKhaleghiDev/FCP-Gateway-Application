@@ -1,0 +1,32 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: iot_dashboard
+      POSTGRES_USER: iot
+      POSTGRES_PASSWORD: iot
+    ports: ["5432:5432"]
+    volumes: [iot-postgres:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U iot -d iot_dashboard"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  backend:
+    build: { context: ., dockerfile: backend/Dockerfile }
+    environment:
+      PORT: 4000
+      CLIENT_URL: http://localhost:8080
+      DATABASE_URL: postgresql://iot:iot@postgres:5432/iot_dashboard
+    ports: ["4000:4000"]
+    depends_on:
+      postgres: { condition: service_healthy }
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args: { VITE_API_URL: http://localhost:4000, VITE_SOCKET_URL: http://localhost:4000 }
+    ports: ["8080:80"]
+    depends_on: [backend]
+volumes:
+  iot-postgres:

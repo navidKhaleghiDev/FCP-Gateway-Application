@@ -1,0 +1,13 @@
+{
+  "name": "sentinel-iot-operations",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": ["frontend", "backend", "packages/shared"],
+  "scripts": {
+    "dev": "concurrently -n API,WEB -c yellow,cyan \"npm run dev -w backend\" \"npm run dev -w frontend\"",
+    "build": "npm run build -w packages/shared && npm run build -w backend && npm run build -w frontend",
+    "typecheck": "npm run typecheck -w packages/shared && npm run typecheck -w backend && npm run typecheck -w frontend"
+  },
+  "devDependencies": { "concurrently": "^9.2.1" },
+  "engines": { "node": ">=20" }
+}

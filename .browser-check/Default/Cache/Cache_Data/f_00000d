@@ -1,0 +1,238 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/components/organisms/device-panel.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=b7c051ca"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+var _s = $RefreshSig$();
+import { Battery, ChevronRight, Radio, Search, Signal, TriangleAlert, X } from "/node_modules/.vite/deps/lucide-react.js?v=b7c051ca";
+import { SearchField } from "/src/components/molecules/search-field.tsx";
+import { StatusBadge } from "/src/components/atoms/status-badge.tsx";
+import { relativeTime, cn } from "/src/lib/utils.ts";
+import { useDeviceStore } from "/src/stores/device-store.ts";
+export function DevicePanel({ devices, search, setSearch }) {
+  _s();
+  const selected = useDeviceStore((s) => s.selectedId);
+  const select = useDeviceStore((s) => s.select);
+  return /* @__PURE__ */ jsxDEV("section", { className: "glass fixed bottom-4 left-3 top-[82px] z-[900] flex w-[360px] flex-col overflow-hidden rounded-[22px] md:left-[100px]", children: [
+    /* @__PURE__ */ jsxDEV("div", { className: "border-b border-white/8 p-4", children: [
+      /* @__PURE__ */ jsxDEV("div", { className: "mb-3 flex items-center justify-between", children: [
+        /* @__PURE__ */ jsxDEV("div", { children: [
+          /* @__PURE__ */ jsxDEV("h2", { className: "m-0 text-sm font-bold", children: "Gateway network" }, void 0, false, {
+            fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+            lineNumber: 2,
+            columnNumber: 487
+          }, this),
+          /* @__PURE__ */ jsxDEV("p", { className: "m-0 mt-1 text-xs text-slate-500", children: [
+            devices.length,
+            " visible assets"
+          ] }, void 0, true, {
+            fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+            lineNumber: 2,
+            columnNumber: 545
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+          lineNumber: 2,
+          columnNumber: 482
+        }, this),
+        /* @__PURE__ */ jsxDEV("button", { className: "rounded-xl p-2 text-slate-400 hover:bg-white/5", children: /* @__PURE__ */ jsxDEV(X, { size: 17 }, void 0, false, {
+          fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+          lineNumber: 2,
+          columnNumber: 700
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+          lineNumber: 2,
+          columnNumber: 633
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+        lineNumber: 2,
+        columnNumber: 426
+      }, this),
+      /* @__PURE__ */ jsxDEV(SearchField, { value: search, onChange: setSearch }, void 0, false, {
+        fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+        lineNumber: 2,
+        columnNumber: 730
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "mt-3 flex gap-2", children: [
+        /* @__PURE__ */ jsxDEV("button", { className: "rounded-lg bg-cyan-400/10 px-2 py-1 text-[11px] font-bold text-cyan-300", children: "All devices" }, void 0, false, {
+          fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+          lineNumber: 2,
+          columnNumber: 814
+        }, this),
+        /* @__PURE__ */ jsxDEV("button", { className: "rounded-lg px-2 py-1 text-[11px] text-slate-400 hover:bg-white/5", children: [
+          /* @__PURE__ */ jsxDEV(TriangleAlert, { size: 12, className: "mr-1 inline" }, void 0, false, {
+            fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+            lineNumber: 2,
+            columnNumber: 1011
+          }, this),
+          "Needs attention"
+        ] }, void 0, true, {
+          fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+          lineNumber: 2,
+          columnNumber: 926
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+        lineNumber: 2,
+        columnNumber: 781
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+      lineNumber: 2,
+      columnNumber: 381
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { className: "scrollbar flex-1 overflow-y-auto p-2", children: [
+      devices.slice(0, 60).map((d) => /* @__PURE__ */ jsxDEV("button", { onClick: () => select(d.id), className: cn("mb-1 w-full rounded-xl border border-transparent p-3 text-left transition hover:bg-white/[.045]", selected === d.id && "border-cyan-400/30 bg-cyan-400/[.07]"), children: [
+        /* @__PURE__ */ jsxDEV("div", { className: "flex items-center justify-between", children: [
+          /* @__PURE__ */ jsxDEV("div", { className: "flex min-w-0 items-center gap-3", children: [
+            /* @__PURE__ */ jsxDEV("span", { className: cn("grid h-9 w-9 shrink-0 place-items-center rounded-xl", d.status === "offline" ? "bg-slate-500/15 text-slate-400" : d.priority === "urgent" ? "bg-rose-500/15 text-rose-300" : d.priority === "warning" ? "bg-amber-500/15 text-amber-300" : "bg-emerald-500/15 text-emerald-300"), children: /* @__PURE__ */ jsxDEV(Radio, { size: 17 }, void 0, false, {
+              fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+              lineNumber: 2,
+              columnNumber: 1803
+            }, this) }, void 0, false, {
+              fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+              lineNumber: 2,
+              columnNumber: 1508
+            }, this),
+            /* @__PURE__ */ jsxDEV("span", { className: "min-w-0", children: [
+              /* @__PURE__ */ jsxDEV("strong", { className: "block truncate text-xs text-slate-100", children: d.name }, void 0, false, {
+                fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+                lineNumber: 2,
+                columnNumber: 1855
+              }, this),
+              /* @__PURE__ */ jsxDEV("small", { className: "block truncate text-[10px] text-slate-500", children: d.buildingName }, void 0, false, {
+                fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+                lineNumber: 2,
+                columnNumber: 1930
+              }, this)
+            ] }, void 0, true, {
+              fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+              lineNumber: 2,
+              columnNumber: 1829
+            }, this)
+          ] }, void 0, true, {
+            fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+            lineNumber: 2,
+            columnNumber: 1459
+          }, this),
+          /* @__PURE__ */ jsxDEV(ChevronRight, { size: 15, className: "text-slate-600" }, void 0, false, {
+            fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+            lineNumber: 2,
+            columnNumber: 2028
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+          lineNumber: 2,
+          columnNumber: 1408
+        }, this),
+        /* @__PURE__ */ jsxDEV("div", { className: "mt-3 flex items-center justify-between text-[10px] text-slate-500", children: [
+          /* @__PURE__ */ jsxDEV(StatusBadge, { status: d.status === "offline" ? "offline" : void 0, priority: d.status === "online" ? d.priority : void 0 }, void 0, false, {
+            fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+            lineNumber: 2,
+            columnNumber: 2170
+          }, this),
+          /* @__PURE__ */ jsxDEV("span", { className: "flex gap-3", children: [
+            /* @__PURE__ */ jsxDEV("i", { className: "not-italic", children: [
+              /* @__PURE__ */ jsxDEV(Battery, { size: 11, className: "mr-1 inline" }, void 0, false, {
+                fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+                lineNumber: 2,
+                columnNumber: 2354
+              }, this),
+              d.battery.toFixed(0),
+              "%"
+            ] }, void 0, true, {
+              fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+              lineNumber: 2,
+              columnNumber: 2328
+            }, this),
+            /* @__PURE__ */ jsxDEV("i", { className: "not-italic", children: [
+              /* @__PURE__ */ jsxDEV(Signal, { size: 11, className: "mr-1 inline" }, void 0, false, {
+                fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+                lineNumber: 2,
+                columnNumber: 2452
+              }, this),
+              d.signalStrength
+            ] }, void 0, true, {
+              fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+              lineNumber: 2,
+              columnNumber: 2426
+            }, this),
+            /* @__PURE__ */ jsxDEV("span", { children: relativeTime(d.lastSeen) }, void 0, false, {
+              fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+              lineNumber: 2,
+              columnNumber: 2518
+            }, this)
+          ] }, void 0, true, {
+            fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+            lineNumber: 2,
+            columnNumber: 2299
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+          lineNumber: 2,
+          columnNumber: 2087
+        }, this)
+      ] }, d.id, true, {
+        fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+        lineNumber: 2,
+        columnNumber: 1185
+      }, this)),
+      !devices.length && /* @__PURE__ */ jsxDEV("div", { className: "grid h-40 place-items-center text-center text-sm text-slate-500", children: /* @__PURE__ */ jsxDEV("div", { children: [
+        /* @__PURE__ */ jsxDEV(Search, { className: "mx-auto mb-2" }, void 0, false, {
+          fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+          lineNumber: 2,
+          columnNumber: 2687
+        }, this),
+        /* @__PURE__ */ jsxDEV("p", { children: "No gateways match your search." }, void 0, false, {
+          fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+          lineNumber: 2,
+          columnNumber: 2722
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+        lineNumber: 2,
+        columnNumber: 2682
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+        lineNumber: 2,
+        columnNumber: 2601
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+      lineNumber: 2,
+      columnNumber: 1098
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx",
+    lineNumber: 2,
+    columnNumber: 242
+  }, this);
+}
+_s(DevicePanel, "m9Z3u09mLZvtO1JdrbTzM/vHx5M=", false, function() {
+  return [useDeviceStore, useDeviceStore];
+});
+_c = DevicePanel;
+var _c;
+$RefreshReg$(_c, "DevicePanel");
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+function $RefreshReg$(type, id) {
+  return RefreshRuntime.register(type, "C:/Users/khaleghi.n/Desktop/New folder (3)/frontend/src/components/organisms/device-panel.tsx " + id);
+}
+function $RefreshSig$() {
+  return RefreshRuntime.createSignatureFunctionForTransform();
+}
+
+//# sourceMappingURL=data:application/json;base64,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LGlDQUFDLFNBQUk7QUFBQSwrQkFBQyxVQUFPLFdBQVUsa0JBQWxCO0FBQUE7QUFBQTtBQUFBO0FBQUEsZUFBZ0M7QUFBQSxRQUFFLHVCQUFDLE9BQUUsOENBQUg7QUFBQTtBQUFBO0FBQUE7QUFBQSxlQUFpQztBQUFBLFdBQXhFO0FBQUE7QUFBQTtBQUFBO0FBQUEsYUFBNEUsS0FBN0o7QUFBQTtBQUFBO0FBQUE7QUFBQSxhQUFtSztBQUFBLFNBQWhsRDtBQUFBO0FBQUE7QUFBQTtBQUFBLFdBQXVsRDtBQUFBLE9BQTU2RTtBQUFBO0FBQUE7QUFBQTtBQUFBLFNBQWs3RTtBQUFVO0FBQUNMLEdBQWhvRkosYUFBVztBQUFBLFVBQXdHRCxnQkFBNkNBLGNBQWM7QUFBQTtBQUFBLEtBQTlLQztBQUFXLElBQUF1QjtBQUFBLGFBQUFBLElBQUEiLCJuYW1lcyI6WyJCYXR0ZXJ5IiwiQ2hldnJvblJpZ2h0IiwiUmFkaW8iLCJTZWFyY2giLCJTaWduYWwiLCJUcmlhbmdsZUFsZXJ0IiwiWCIsIlNlYXJjaEZpZWxkIiwiU3RhdHVzQmFkZ2UiLCJyZWxhdGl2ZVRpbWUiLCJjbiIsInVzZURldmljZVN0b3JlIiwiRGV2aWNlUGFuZWwiLCJkZXZpY2VzIiwic2VhcmNoIiwic2V0U2VhcmNoIiwiX3MiLCJzZWxlY3RlZCIsInMiLCJzZWxlY3RlZElkIiwic2VsZWN0IiwibGVuZ3RoIiwic2xpY2UiLCJtYXAiLCJkIiwiaWQiLCJzdGF0dXMiLCJwcmlvcml0eSIsIm5hbWUiLCJidWlsZGluZ05hbWUiLCJ1bmRlZmluZWQiLCJiYXR0ZXJ5IiwidG9GaXhlZCIsInNpZ25hbFN0cmVuZ3RoIiwibGFzdFNlZW4iLCJfYyJdLCJpZ25vcmVMaXN0IjpbXSwic291cmNlcyI6WyJkZXZpY2UtcGFuZWwudHN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydHtCYXR0ZXJ5LENoZXZyb25SaWdodCxSYWRpbyxTZWFyY2gsU2lnbmFsLFRyaWFuZ2xlQWxlcnQsWH1mcm9tXCJsdWNpZGUtcmVhY3RcIjtpbXBvcnQgdHlwZXtEZXZpY2V9ZnJvbVwiQHNlbnRpbmVsL3NoYXJlZFwiO2ltcG9ydHtTZWFyY2hGaWVsZH1mcm9tXCJAL2NvbXBvbmVudHMvbW9sZWN1bGVzL3NlYXJjaC1maWVsZFwiO2ltcG9ydHtTdGF0dXNCYWRnZX1mcm9tXCJAL2NvbXBvbmVudHMvYXRvbXMvc3RhdHVzLWJhZGdlXCI7aW1wb3J0e3JlbGF0aXZlVGltZSxjbn1mcm9tXCJAL2xpYi91dGlsc1wiO2ltcG9ydHt1c2VEZXZpY2VTdG9yZX1mcm9tXCJAL3N0b3Jlcy9kZXZpY2Utc3RvcmVcIjtcbmV4cG9ydCBmdW5jdGlvbiBEZXZpY2VQYW5lbCh7ZGV2aWNlcyxzZWFyY2gsc2V0U2VhcmNofTp7ZGV2aWNlczpEZXZpY2VbXTtzZWFyY2g6c3RyaW5nO3NldFNlYXJjaDoodjpzdHJpbmcpPT52b2lkfSl7Y29uc3Qgc2VsZWN0ZWQ9dXNlRGV2aWNlU3RvcmUocz0+cy5zZWxlY3RlZElkKTtjb25zdCBzZWxlY3Q9dXNlRGV2aWNlU3RvcmUocz0+cy5zZWxlY3QpO3JldHVybiA8c2VjdGlvbiBjbGFzc05hbWU9XCJnbGFzcyBmaXhlZCBib3R0b20tNCBsZWZ0LTMgdG9wLVs4MnB4XSB6LVs5MDBdIGZsZXggdy1bMzYwcHhdIGZsZXgtY29sIG92ZXJmbG93LWhpZGRlbiByb3VuZGVkLVsyMnB4XSBtZDpsZWZ0LVsxMDBweF1cIj48ZGl2IGNsYXNzTmFtZT1cImJvcmRlci1iIGJvcmRlci13aGl0ZS84IHAtNFwiPjxkaXYgY2xhc3NOYW1lPVwibWItMyBmbGV4IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWJldHdlZW5cIj48ZGl2PjxoMiBjbGFzc05hbWU9XCJtLTAgdGV4dC1zbSBmb250LWJvbGRcIj5HYXRld2F5IG5ldHdvcms8L2gyPjxwIGNsYXNzTmFtZT1cIm0tMCBtdC0xIHRleHQteHMgdGV4dC1zbGF0ZS01MDBcIj57ZGV2aWNlcy5sZW5ndGh9IHZpc2libGUgYXNzZXRzPC9wPjwvZGl2PjxidXR0b24gY2xhc3NOYW1lPVwicm91bmRlZC14bCBwLTIgdGV4dC1zbGF0ZS00MDAgaG92ZXI6Ymctd2hpdGUvNVwiPjxYIHNpemU9ezE3fS8+PC9idXR0b24+PC9kaXY+PFNlYXJjaEZpZWxkIHZhbHVlPXtzZWFyY2h9IG9uQ2hhbmdlPXtzZXRTZWFyY2h9Lz48ZGl2IGNsYXNzTmFtZT1cIm10LTMgZmxleCBnYXAtMlwiPjxidXR0b24gY2xhc3NOYW1lPVwicm91bmRlZC1sZyBiZy1jeWFuLTQwMC8xMCBweC0yIHB5LTEgdGV4dC1bMTFweF0gZm9udC1ib2xkIHRleHQtY3lhbi0zMDBcIj5BbGwgZGV2aWNlczwvYnV0dG9uPjxidXR0b24gY2xhc3NOYW1lPVwicm91bmRlZC1sZyBweC0yIHB5LTEgdGV4dC1bMTFweF0gdGV4dC1zbGF0ZS00MDAgaG92ZXI6Ymctd2hpdGUvNVwiPjxUcmlhbmdsZUFsZXJ0IHNpemU9ezEyfSBjbGFzc05hbWU9XCJtci0xIGlubGluZVwiLz5OZWVkcyBhdHRlbnRpb248L2J1dHRvbj48L2Rpdj48L2Rpdj48ZGl2IGNsYXNzTmFtZT1cInNjcm9sbGJhciBmbGV4LTEgb3ZlcmZsb3cteS1hdXRvIHAtMlwiPntkZXZpY2VzLnNsaWNlKDAsNjApLm1hcChkPT48YnV0dG9uIGtleT17ZC5pZH0gb25DbGljaz17KCk9PnNlbGVjdChkLmlkKX0gY2xhc3NOYW1lPXtjbihcIm1iLTEgdy1mdWxsIHJvdW5kZWQteGwgYm9yZGVyIGJvcmRlci10cmFuc3BhcmVudCBwLTMgdGV4dC1sZWZ0IHRyYW5zaXRpb24gaG92ZXI6Ymctd2hpdGUvWy4wNDVdXCIsc2VsZWN0ZWQ9PT1kLmlkJiZcImJvcmRlci1jeWFuLTQwMC8zMCBiZy1jeWFuLTQwMC9bLjA3XVwiKX0+PGRpdiBjbGFzc05hbWU9XCJmbGV4IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWJldHdlZW5cIj48ZGl2IGNsYXNzTmFtZT1cImZsZXggbWluLXctMCBpdGVtcy1jZW50ZXIgZ2FwLTNcIj48c3BhbiBjbGFzc05hbWU9e2NuKFwiZ3JpZCBoLTkgdy05IHNocmluay0wIHBsYWNlLWl0ZW1zLWNlbnRlciByb3VuZGVkLXhsXCIsZC5zdGF0dXM9PT1cIm9mZmxpbmVcIj9cImJnLXNsYXRlLTUwMC8xNSB0ZXh0LXNsYXRlLTQwMFwiOmQucHJpb3JpdHk9PT1cInVyZ2VudFwiP1wiYmctcm9zZS01MDAvMTUgdGV4dC1yb3NlLTMwMFwiOmQucHJpb3JpdHk9PT1cIndhcm5pbmdcIj9cImJnLWFtYmVyLTUwMC8xNSB0ZXh0LWFtYmVyLTMwMFwiOlwiYmctZW1lcmFsZC01MDAvMTUgdGV4dC1lbWVyYWxkLTMwMFwiKX0+PFJhZGlvIHNpemU9ezE3fS8+PC9zcGFuPjxzcGFuIGNsYXNzTmFtZT1cIm1pbi13LTBcIj48c3Ryb25nIGNsYXNzTmFtZT1cImJsb2NrIHRydW5jYXRlIHRleHQteHMgdGV4dC1zbGF0ZS0xMDBcIj57ZC5uYW1lfTwvc3Ryb25nPjxzbWFsbCBjbGFzc05hbWU9XCJibG9jayB0cnVuY2F0ZSB0ZXh0LVsxMHB4XSB0ZXh0LXNsYXRlLTUwMFwiPntkLmJ1aWxkaW5nTmFtZX08L3NtYWxsPjwvc3Bhbj48L2Rpdj48Q2hldnJvblJpZ2h0IHNpemU9ezE1fSBjbGFzc05hbWU9XCJ0ZXh0LXNsYXRlLTYwMFwiLz48L2Rpdj48ZGl2IGNsYXNzTmFtZT1cIm10LTMgZmxleCBpdGVtcy1jZW50ZXIganVzdGlmeS1iZXR3ZWVuIHRleHQtWzEwcHhdIHRleHQtc2xhdGUtNTAwXCI+PFN0YXR1c0JhZGdlIHN0YXR1cz17ZC5zdGF0dXM9PT1cIm9mZmxpbmVcIj9cIm9mZmxpbmVcIjp1bmRlZmluZWR9IHByaW9yaXR5PXtkLnN0YXR1cz09PVwib25saW5lXCI/ZC5wcmlvcml0eTp1bmRlZmluZWR9Lz48c3BhbiBjbGFzc05hbWU9XCJmbGV4IGdhcC0zXCI+PGkgY2xhc3NOYW1lPVwibm90LWl0YWxpY1wiPjxCYXR0ZXJ5IHNpemU9ezExfSBjbGFzc05hbWU9XCJtci0xIGlubGluZVwiLz57ZC5iYXR0ZXJ5LnRvRml4ZWQoMCl9JTwvaT48aSBjbGFzc05hbWU9XCJub3QtaXRhbGljXCI+PFNpZ25hbCBzaXplPXsxMX0gY2xhc3NOYW1lPVwibXItMSBpbmxpbmVcIi8+e2Quc2lnbmFsU3RyZW5ndGh9PC9pPjxzcGFuPntyZWxhdGl2ZVRpbWUoZC5sYXN0U2Vlbil9PC9zcGFuPjwvc3Bhbj48L2Rpdj48L2J1dHRvbj4pfXshZGV2aWNlcy5sZW5ndGgmJjxkaXYgY2xhc3NOYW1lPVwiZ3JpZCBoLTQwIHBsYWNlLWl0ZW1zLWNlbnRlciB0ZXh0LWNlbnRlciB0ZXh0LXNtIHRleHQtc2xhdGUtNTAwXCI+PGRpdj48U2VhcmNoIGNsYXNzTmFtZT1cIm14LWF1dG8gbWItMlwiLz48cD5ObyBnYXRld2F5cyBtYXRjaCB5b3VyIHNlYXJjaC48L3A+PC9kaXY+PC9kaXY+fTwvZGl2Pjwvc2VjdGlvbj59XG4iXSwiZmlsZSI6IkM6L1VzZXJzL2toYWxlZ2hpLm4vRGVza3RvcC9OZXcgZm9sZGVyICgzKS9mcm9udGVuZC9zcmMvY29tcG9uZW50cy9vcmdhbmlzbXMvZGV2aWNlLXBhbmVsLnRzeCJ9
