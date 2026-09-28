@@ -7,6 +7,7 @@ import { SearchField } from "@/components/molecules/search-field";
 import { StatusBadge } from "@/components/atoms/status-badge";
 import { Button } from "@/components/atoms/button";
 import { relativeTime } from "@/lib/utils";
+import { fa, faNumber } from "@/lib/i18n";
 const PAGE_SIZE = 15;
 export function DevicesPage() {
   useLiveData();
@@ -39,14 +40,16 @@ export function DevicesPage() {
     setPage(1);
   };
   return (
-    <main className="min-h-screen px-4 pb-8 pt-24 md:pl-[100px]">
+    <main className="min-h-screen bg-gray-50 px-4 pb-8 pt-24 md:pr-[100px]">
       <div className="mx-auto max-w-[1450px]">
-        <section className="glass rounded-3xl">
-          <div className="flex flex-col gap-3 border-b border-white/8 p-5 lg:flex-row lg:items-center lg:justify-between">
+        <section className="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
+          <div className="flex flex-col gap-3 border-b border-gray-200 px-5 py-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <h2 className="m-0 text-lg font-bold">Gateway fleet</h2>
-              <p className="mt-1 text-sm text-slate-500">
-                Live operational state for {devices.length} devices
+              <h2 className="m-0 text-lg font-medium text-gray-900">
+                {fa.fleet.title}
+              </h2>
+              <p className="mt-1 text-sm text-gray-500">
+                {fa.fleet.subtitle} برای {faNumber(devices.length)} دستگاه
               </p>
             </div>
             <div className="flex flex-col gap-2 sm:flex-row">
@@ -54,48 +57,48 @@ export function DevicesPage() {
                 <SearchField
                   value={query}
                   onChange={update(setQuery)}
-                  placeholder="Search name, ID, building…"
+                  placeholder={fa.fleet.search}
                 />
               </div>
               <select
                 value={status}
                 onChange={(e) => update(setStatus)(e.target.value)}
-                className="h-10 rounded-xl border border-white/10 bg-[#0c1c2c] px-3 text-sm text-slate-300"
+                className="h-10 rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-700 focus:border-teal-500"
               >
-                <option value="all">All statuses</option>
-                <option>online</option>
-                <option>offline</option>
+                <option value="all">{fa.fleet.allStatus}</option>
+                <option value="online">آنلاین</option>
+                <option value="offline">آفلاین</option>
               </select>
               <select
                 value={priority}
                 onChange={(e) => update(setPriority)(e.target.value)}
-                className="h-10 rounded-xl border border-white/10 bg-[#0c1c2c] px-3 text-sm text-slate-300"
+                className="h-10 rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-700 focus:border-teal-500"
               >
-                <option value="all">All priorities</option>
-                <option>normal</option>
-                <option>warning</option>
-                <option>urgent</option>
+                <option value="all">{fa.fleet.allPriority}</option>
+                <option value="normal">عادی</option>
+                <option value="warning">هشدار</option>
+                <option value="urgent">فوری</option>
               </select>
             </div>
           </div>
           <div className="scrollbar overflow-x-auto">
-            <table className="w-full min-w-[1000px] border-collapse text-left text-sm">
+            <table className="w-full min-w-[1000px] border-collapse text-right text-sm">
               <thead>
-                <tr className="text-[11px] uppercase tracking-wider text-slate-500">
+                <tr className="bg-gray-100 text-xs text-gray-500">
                   {[
-                    "Gateway",
-                    "Building",
-                    "Status",
-                    "Priority",
-                    "Battery",
-                    "Signal",
-                    "Temperature",
-                    "Last seen",
+                    fa.fleet.gateway,
+                    fa.fleet.building,
+                    fa.fleet.status,
+                    fa.fleet.priority,
+                    fa.fleet.battery,
+                    fa.fleet.signal,
+                    fa.fleet.temperature,
+                    fa.fleet.lastSeen,
                     "",
                   ].map((h) => (
                     <th
                       key={h}
-                      className="border-b border-white/8 px-5 py-3 font-semibold"
+                      className="border-b border-gray-200 px-5 py-3 font-medium"
                     >
                       {h}
                     </th>
@@ -106,13 +109,17 @@ export function DevicesPage() {
                 {visible.map((d) => (
                   <tr
                     key={d.id}
-                    className="border-b border-white/[.055] transition hover:bg-white/[.025]"
+                    className="border-b border-gray-200 transition hover:bg-gray-100"
                   >
                     <td className="px-5 py-3">
-                      <strong className="block text-slate-100">{d.name}</strong>
-                      <span className="text-xs text-slate-500">{d.id}</span>
+                      <strong className="block font-medium text-gray-900">
+                        {d.name}
+                      </strong>
+                      <span className="text-xs text-gray-500" dir="ltr">
+                        {d.id}
+                      </span>
                     </td>
-                    <td className="px-5 py-3 text-slate-300">
+                    <td className="px-5 py-3 text-gray-700">
                       {d.buildingName}
                     </td>
                     <td className="px-5 py-3">
@@ -121,16 +128,16 @@ export function DevicesPage() {
                     <td className="px-5 py-3">
                       <StatusBadge priority={d.priority} />
                     </td>
-                    <td className="px-5 py-3 text-slate-300">
-                      {d.battery.toFixed(0)}%
+                    <td className="px-5 py-3 text-gray-700">
+                      {faNumber(Math.round(d.battery))}٪
                     </td>
-                    <td className="px-5 py-3 text-slate-300">
-                      {d.signalStrength} dBm
+                    <td className="px-5 py-3 text-gray-700" dir="ltr">
+                      {faNumber(d.signalStrength)} dBm
                     </td>
-                    <td className="px-5 py-3 text-slate-300">
-                      {d.temperature.toFixed(1)}°C
+                    <td className="px-5 py-3 text-gray-700">
+                      {faNumber(d.temperature.toFixed(1))}°C
                     </td>
-                    <td className="px-5 py-3 text-slate-400">
+                    <td className="px-5 py-3 text-gray-500">
                       {relativeTime(d.lastSeen)}
                     </td>
                     <td className="px-5 py-3">
@@ -139,7 +146,7 @@ export function DevicesPage() {
                         onClick={() => nav(`/devices/${d.id}`)}
                       >
                         <Eye size={15} />
-                        View
+                        {fa.common.view}
                       </Button>
                     </td>
                   </tr>
@@ -147,17 +154,18 @@ export function DevicesPage() {
               </tbody>
             </table>
             {!visible.length && (
-              <div className="grid h-64 place-items-center text-slate-500">
+              <div className="grid h-64 place-items-center text-gray-500">
                 <div className="text-center">
                   <Search className="mx-auto mb-2" />
-                  <p>No matching gateways</p>
+                  <p>{fa.fleet.noResult}</p>
                 </div>
               </div>
             )}
           </div>
-          <footer className="flex items-center justify-between p-4 text-xs text-slate-500">
+          <footer className="flex items-center justify-between p-4 text-xs text-gray-500">
             <span>
-              Showing {visible.length} of {rows.length}
+              {fa.fleet.showing} {faNumber(visible.length)} {fa.common.of}{" "}
+              {faNumber(rows.length)}
             </span>
             <div className="flex items-center gap-2">
               <Button
@@ -168,14 +176,15 @@ export function DevicesPage() {
                 <ChevronLeft size={15} />
               </Button>
               <span>
-                Page {page} of {pages}
+                {fa.common.page} {faNumber(page)} {fa.common.of}{" "}
+                {faNumber(pages)}
               </span>
               <Button
                 variant="ghost"
                 disabled={page === pages}
                 onClick={() => setPage((p) => p + 1)}
               >
-                <ChevronRight size={15} />
+                <ChevronRight className="rotate-180" size={15} />
               </Button>
             </div>
           </footer>

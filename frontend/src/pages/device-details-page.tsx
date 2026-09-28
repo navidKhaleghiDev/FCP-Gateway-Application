@@ -27,6 +27,7 @@ import { StatusBadge } from "@/components/atoms/status-badge";
 import { Button } from "@/components/atoms/button";
 import { deviceApi } from "@/lib/api";
 import { toast } from "sonner";
+import { eventLabel, fa, faNumber } from "@/lib/i18n";
 export function DeviceDetailsPage() {
   useLiveData();
   const { id } = useParams();
@@ -51,81 +52,85 @@ export function DeviceDetailsPage() {
     if (!id) return;
     try {
       await deviceApi.simulate(id, eventType);
-      toast.success(`Scenario “${eventType.replace("_", " ")}” triggered`);
+      toast.success(`سناریوی «${eventLabel[eventType]}» اجرا شد`);
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Action failed");
+      toast.error(e instanceof Error ? e.message : "انجام عملیات ناموفق بود");
     }
   };
   if (!device)
     return (
       <main className="grid h-screen place-items-center text-slate-400">
-        Gateway not found
+        {fa.details.notFound}
       </main>
     );
   return (
-    <main className="min-h-screen px-4 pb-10 pt-24 md:pl-[100px]">
+    <main className="min-h-screen bg-gray-50 px-4 pb-10 pt-24 md:pr-[100px]">
       <div className="mx-auto max-w-6xl">
         <Button variant="ghost" onClick={() => nav(-1)}>
           <ChevronLeft size={16} />
-          Back to fleet
+          {fa.details.back}
         </Button>
         <div className="mt-3 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div>
             <div className="flex items-center gap-3">
-              <h2 className="m-0 text-2xl font-bold">{device.name}</h2>
+              <h2 className="m-0 text-2xl font-medium text-gray-900">
+                {device.name}
+              </h2>
               <StatusBadge status={device.status} />
               <StatusBadge priority={device.priority} />
             </div>
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-gray-500">
               {device.id} · {device.buildingName}
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
             <Button variant="danger" onClick={() => run("urgent_alarm")}>
               <Flame size={15} />
-              Test alarm
+              {fa.details.testAlarm}
             </Button>
             <Button variant="ghost" onClick={() => run("technical_fault")}>
-              Test fault
+              {fa.details.testFault}
             </Button>
-            <Button onClick={() => run("resolve_alarm")}>Resolve all</Button>
+            <Button onClick={() => run("resolve_alarm")}>
+              {fa.details.resolve}
+            </Button>
           </div>
         </div>
         <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <Metric
-            label="Battery"
-            value={device.battery.toFixed(0)}
+            label={fa.details.battery}
+            value={faNumber(Math.round(device.battery))}
             unit="%"
             icon={Battery}
             tone="green"
           />
           <Metric
-            label="Signal"
-            value={device.signalStrength}
+            label={fa.details.signal}
+            value={faNumber(device.signalStrength)}
             unit="dBm"
             icon={Signal}
           />
           <Metric
-            label="Temperature"
-            value={device.temperature.toFixed(1)}
+            label={fa.details.temperature}
+            value={faNumber(device.temperature.toFixed(1))}
             unit="°C"
             icon={Thermometer}
             tone={device.temperature > 35 ? "amber" : "cyan"}
           />
           <Metric
-            label="AC power"
-            value={device.acPower ? "Healthy" : "Failed"}
+            label={fa.details.acSupply}
+            value={device.acPower ? fa.details.healthy : fa.details.failed}
             icon={PlugZap}
             tone={device.acPower ? "green" : "rose"}
           />
         </div>
         <div className="mt-4 grid gap-4 lg:grid-cols-[1.7fr_1fr]">
-          <section className="glass rounded-3xl p-5">
+          <section className="rounded-[1.5rem] border border-gray-200 bg-white p-5 shadow-sm">
             <div className="mb-5">
-              <h3 className="m-0 text-sm font-bold">Live temperature</h3>
-              <p className="mt-1 text-xs text-slate-500">
-                Bounded client-side telemetry history · latest 40 points
-              </p>
+              <h3 className="m-0 text-sm font-medium text-gray-900">
+                {fa.details.liveTemp}
+              </h3>
+              <p className="mt-1 text-xs text-gray-500">{fa.details.history}</p>
             </div>
             <div className="h-72">
               <ResponsiveContainer width="100%" height="100%">
@@ -177,36 +182,44 @@ export function DeviceDetailsPage() {
               </ResponsiveContainer>
             </div>
           </section>
-          <section className="glass rounded-3xl p-5">
-            <h3 className="m-0 text-sm font-bold">Operational state</h3>
+          <section className="rounded-[1.5rem] border border-gray-200 bg-white p-5 shadow-sm">
+            <h3 className="m-0 text-sm font-medium text-gray-900">
+              {fa.details.operational}
+            </h3>
             <div className="mt-5 space-y-3">
               {[
-                [Radio, "Connectivity", device.status],
+                [
+                  Radio,
+                  fa.details.connectivity,
+                  device.status === "online" ? "آنلاین" : "آفلاین",
+                ],
                 [
                   TriangleAlert,
-                  "Technical faults",
-                  device.hasFaults ? "Detected" : "Clear",
+                  fa.details.technicalFault,
+                  device.hasFaults ? fa.details.detected : fa.details.clear,
                 ],
                 [
                   Flame,
-                  "Urgent alarm",
-                  device.urgentAlarm ? "Active" : "Clear",
+                  fa.details.urgentAlarm,
+                  device.urgentAlarm ? fa.details.active : fa.details.clear,
                 ],
                 [
                   PlugZap,
-                  "AC supply",
-                  device.acPower ? "Available" : "Unavailable",
+                  fa.details.acSupply,
+                  device.acPower
+                    ? fa.details.available
+                    : fa.details.unavailable,
                 ],
               ].map(([Icon, label, value]) => (
                 <div
                   key={String(label)}
-                  className="flex items-center justify-between rounded-xl bg-white/[.035] p-3"
+                  className="flex items-center justify-between rounded-lg bg-gray-100 p-3"
                 >
-                  <span className="flex items-center gap-2 text-xs text-slate-400">
+                  <span className="flex items-center gap-2 text-xs text-gray-500">
                     <Icon size={15} />
                     {label as string}
                   </span>
-                  <strong className="text-xs capitalize text-slate-100">
+                  <strong className="text-xs font-medium text-gray-900">
                     {value as string}
                   </strong>
                 </div>
@@ -219,10 +232,12 @@ export function DeviceDetailsPage() {
                   run(device.status === "online" ? "disconnect" : "reconnect")
                 }
               >
-                {device.status === "online" ? "Disconnect" : "Reconnect"}
+                {device.status === "online"
+                  ? fa.details.disconnect
+                  : fa.details.reconnect}
               </Button>
               <Button variant="ghost" onClick={() => run("power_failure")}>
-                Power failure
+                {fa.details.powerFailure}
               </Button>
             </div>
           </section>
