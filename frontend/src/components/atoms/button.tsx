@@ -1,12 +1,21 @@
 import type { ButtonHTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
+
+
+interface IProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: "default" | "ghost" | "danger";
+  className ?: string
+} 
+
+// TODO : add for this component jsdoc
+
+
+
 export function Button({
   className,
   variant = "default",
   ...props
-}: ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: "default" | "ghost" | "danger";
-}) {
+}:IProps) {
   return (
     <button
       className={cn(

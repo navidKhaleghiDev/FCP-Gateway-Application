@@ -1,13 +1,19 @@
 import type { DevicePriority, DeviceStatus } from "@sentinel/shared";
 import { cn } from "@/lib/utils";
 import { statusLabel } from "@/lib/i18n";
+
+interface IProps {
+  status?: DeviceStatus;
+  priority?: DevicePriority;
+}
+
+// TODO:  also for this component add the js docs.
+
+
 export function StatusBadge({
   status,
   priority,
-}: {
-  status?: DeviceStatus;
-  priority?: DevicePriority;
-}) {
+}:IProps ) {
   const value = status ?? priority ?? "normal";
   return (
     <span

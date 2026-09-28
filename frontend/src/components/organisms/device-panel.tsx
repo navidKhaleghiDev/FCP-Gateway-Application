@@ -13,15 +13,22 @@ import { StatusBadge } from "@/components/atoms/status-badge";
 import { relativeTime, cn } from "@/lib/utils";
 import { useDeviceStore } from "@/stores/device-store";
 import { fa, faNumber } from "@/lib/i18n";
+
+interface IProps  {
+  devices: Device[];
+  search: string;
+  setSearch: (v: string) => void;
+}
+
+
+
+
+
 export function DevicePanel({
   devices,
   search,
   setSearch,
-}: {
-  devices: Device[];
-  search: string;
-  setSearch: (v: string) => void;
-}) {
+}:IProps) {
   const selected = useDeviceStore((s) => s.selectedId);
   const select = useDeviceStore((s) => s.select);
   return (

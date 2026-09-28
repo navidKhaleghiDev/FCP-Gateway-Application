@@ -22,6 +22,8 @@ input,
 select {
   font: inherit;
 }
+/* 
+TODO : for the styles that we have for the map is not better to handle them beside the map it self handle this for me if from the performance sight is better than this  */
 .glass {
   background: rgba(255, 255, 255, 0.96);
   backdrop-filter: blur(12px);
@@ -76,6 +78,7 @@ select {
   background: #64748b;
   color: #64748b;
 }
+/* TODO : for the pulse animtaion use the tailwind deafult animtioant it self */
 @keyframes pulse {
   50% {
     box-shadow: 0 0 0 12px rgba(239, 71, 87, 0);

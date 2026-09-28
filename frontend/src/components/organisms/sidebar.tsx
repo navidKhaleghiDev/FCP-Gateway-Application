@@ -14,6 +14,8 @@ const items = [
   { to: "/devices", label: fa.nav.devices, icon: RadioTower },
   { to: "/alerts", label: fa.nav.alerts, icon: AlertTriangle },
 ];
+
+
 export function Sidebar() {
   return (
     <aside className="fixed bottom-3 right-3 top-3 z-[1100] hidden w-[76px] flex-col items-center rounded-[1.5rem] border border-gray-200 bg-white py-4 shadow-sm md:flex">

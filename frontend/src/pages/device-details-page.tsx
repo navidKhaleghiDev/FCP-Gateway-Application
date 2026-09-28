@@ -28,6 +28,8 @@ import { Button } from "@/components/atoms/button";
 import { deviceApi } from "@/lib/api";
 import { toast } from "sonner";
 import { eventLabel, fa, faNumber } from "@/lib/i18n";
+
+
 export function DeviceDetailsPage() {
   useLiveData();
   const { id } = useParams();

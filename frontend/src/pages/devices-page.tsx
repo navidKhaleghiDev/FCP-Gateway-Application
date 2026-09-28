@@ -8,12 +8,17 @@ import { StatusBadge } from "@/components/atoms/status-badge";
 import { Button } from "@/components/atoms/button";
 import { relativeTime } from "@/lib/utils";
 import { fa, faNumber } from "@/lib/i18n";
+
+// TODO : create config file in the services that we have that has all the configurations for the application also put this page size there for us 
 const PAGE_SIZE = 15;
+
 export function DevicesPage() {
   useLiveData();
   const deviceRecord = useDeviceStore((state) => state.devices);
   const devices = useMemo(() => Object.values(deviceRecord), [deviceRecord]);
   const nav = useNavigate();
+
+  // TODO : also for handling the filters , search use the URL insted of handling that with state in action that we have here 
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState("all");
   const [priority, setPriority] = useState("all");
@@ -33,12 +38,18 @@ export function DevicesPage() {
         .sort((a, b) => b.lastSeen.localeCompare(a.lastSeen)),
     [devices, query, status, priority],
   );
+
+  // TODO : also for the pagination make the component and also handle the logic and other things inside that component 
+  // also remember that the page also should be set in the URL and the state of the page should be handle there in action
   const pages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
   const visible = rows.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   const update = (setter: (v: string) => void) => (v: string) => {
     setter(v);
     setPage(1);
   };
+
+  // TODO : use the dropdown or what we have in the shadcn for Handling  the select  that we have in this UI and also 
+  // add that dropdown to the atoms in the components directory
   return (
     <main className="min-h-screen bg-gray-50 px-4 pb-8 pt-24 md:pr-[100px]">
       <div className="mx-auto max-w-[1450px]">
@@ -82,6 +93,8 @@ export function DevicesPage() {
             </div>
           </div>
           <div className="scrollbar overflow-x-auto">
+            {/* // TODO : also for the table that you have used here use the table that shadcn provided for us or if the shadcn did not prvided any table make this an organism and make this custome component that gets accsor and the data and 
+            the configurations that we need for the table   */}
             <table className="w-full min-w-[1000px] border-collapse text-right text-sm">
               <thead>
                 <tr className="bg-gray-100 text-xs text-gray-500">

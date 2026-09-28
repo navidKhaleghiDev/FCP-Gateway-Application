@@ -1,14 +1,20 @@
 import { Search, X } from "lucide-react";
 import { fa } from "@/lib/i18n";
+
+interface IProps {
+  value: string;
+  onChange: (v: string) => void;
+  placeholder?: string;
+}
+
+//Todo : for this component also add the js doc also handel the search input debounce here to not to crash the backend 
+
+
 export function SearchField({
   value,
   onChange,
   placeholder = fa.map.search,
-}: {
-  value: string;
-  onChange: (v: string) => void;
-  placeholder?: string;
-}) {
+}:IProps ) {
   return (
     <label className="relative block">
       <Search

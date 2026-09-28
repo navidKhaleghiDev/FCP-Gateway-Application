@@ -7,6 +7,8 @@ import { StatusBadge } from "@/components/atoms/status-badge";
 import { Button } from "@/components/atoms/button";
 import { relativeTime } from "@/lib/utils";
 import { eventLabel, fa } from "@/lib/i18n";
+
+
 export function AlertsPage() {
   useLiveData();
   const alertRecord = useDeviceStore((state) => state.alerts);

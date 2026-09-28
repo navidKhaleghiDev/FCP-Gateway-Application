@@ -1,17 +1,23 @@
 import type { LucideIcon } from "lucide-react";
+
+interface IProps {
+  label: string;
+  value: number;
+  icon: LucideIcon;
+  tone: string;
+  caption: string;
+}
+
+// TODO : also for this compnent add the js doc for 
+
+
 export function KpiCard({
   label,
   value,
   icon: Icon,
   tone,
   caption,
-}: {
-  label: string;
-  value: number;
-  icon: LucideIcon;
-  tone: string;
-  caption: string;
-}) {
+}:IProps) {
   return (
     <div className="glass min-w-[165px] rounded-lg p-4 text-right">
       <div className="flex items-center justify-between">

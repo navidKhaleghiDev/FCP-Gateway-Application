@@ -3,6 +3,8 @@ import { useLocation } from "react-router-dom";
 import { useDeviceStore } from "@/stores/device-store";
 import { cn } from "@/lib/utils";
 import { fa, faNumber } from "@/lib/i18n";
+
+
 export function Topbar() {
   const connection = useDeviceStore((s) => s.connection);
   const alertRecord = useDeviceStore((state) => state.alerts);

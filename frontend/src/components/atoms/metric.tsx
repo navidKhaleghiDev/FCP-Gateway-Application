@@ -1,17 +1,23 @@
 import type { LucideIcon } from "lucide-react";
+
+interface IProps {
+  label: string;
+  value: string | number;
+  unit?: string;
+  icon: LucideIcon;
+  tone?: "cyan" | "green" | "amber" | "rose";
+}
+
+//Todo : for this component add the js doc
+
+
 export function Metric({
   label,
   value,
   unit,
   icon: Icon,
   tone = "cyan",
-}: {
-  label: string;
-  value: string | number;
-  unit?: string;
-  icon: LucideIcon;
-  tone?: "cyan" | "green" | "amber" | "rose";
-}) {
+}:IProps) {
   const color = {
     cyan: "text-teal-600 bg-teal-50",
     green: "text-teal-600 bg-teal-50",

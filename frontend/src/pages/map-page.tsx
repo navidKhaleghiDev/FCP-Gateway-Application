@@ -7,10 +7,15 @@ import { useDeviceStore } from "@/stores/device-store";
 import { useLiveData } from "@/hooks/use-live-data";
 import { Button } from "@/components/atoms/button";
 import { fa, faNumber } from "@/lib/i18n";
+
+
+
 export function MapPage() {
   const { isLoading, isError, refetch } = useLiveData();
   const deviceRecord = useDeviceStore((state) => state.devices);
   const devices = useMemo(() => Object.values(deviceRecord), [deviceRecord]);
+
+  // TODO : for all the search and the filter that we have for our application they should be handle in the URL with the search param so remove these in action for us and create custom hook for reading state from the URL and for setting the params that we have in the URL 
   const [search, setSearch] = useState("");
   const filtered = useMemo(() => {
     const q = search.toLowerCase();
@@ -28,6 +33,9 @@ export function MapPage() {
     urgent: devices.filter((d) => d.urgentAlarm).length,
     faults: devices.filter((d) => d.hasFaults || !d.acPower).length,
   };
+
+
+      {/* TODO : create a componet that component is the wrapper and we padd the error of the api and the loading of the api if one of them happesn that compone show the UI that is for Error and for the loading   */}
   if (isError)
     return (
       <div className="grid h-screen place-items-center">
@@ -38,6 +46,10 @@ export function MapPage() {
         </div>
       </div>
     );
+
+
+
+
   return (
     <main className="relative h-screen overflow-hidden">
       <DeviceMap devices={filtered} />
@@ -72,6 +84,7 @@ export function MapPage() {
           caption={fa.kpi.faultsHint}
         />
       </div>
+
       {isLoading && (
         <div className="fixed inset-0 z-[2000] grid place-items-center bg-gray-100/70 backdrop-blur-sm">
           <div className="glass rounded-lg px-5 py-4 text-sm text-teal-600">
