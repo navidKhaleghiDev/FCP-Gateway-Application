@@ -1,28 +1,32 @@
-import type { LucideIcon } from "lucide-react";
+import type { LucideIcon } from 'lucide-react';
 
 interface IProps {
   label: string;
   value: string | number;
   unit?: string;
   icon: LucideIcon;
-  tone?: "cyan" | "green" | "amber" | "rose";
+  tone?: 'cyan' | 'green' | 'amber' | 'rose';
 }
 
-//Todo : for this component add the js doc
+/**
+ * Displays a named device metric with its value and optional unit.
+ *
+ * @component
+ * @param {IProps} props - Metric content and visual configuration.
+ * @param {string} props.label - Metric label.
+ * @param {string|number} props.value - Metric value.
+ * @param {string} [props.unit] - Optional value unit.
+ * @param {LucideIcon} props.icon - Icon rendered beside the value.
+ * @param {'green'|'amber'|'cyan'|'rose'} [props.tone] - Metric color tone.
+ * @returns {JSX.Element} A metric card.
+ */
 
-
-export function Metric({
-  label,
-  value,
-  unit,
-  icon: Icon,
-  tone = "cyan",
-}:IProps) {
+export function Metric({ label, value, unit, icon: Icon, tone = 'cyan' }: IProps) {
   const color = {
-    cyan: "text-teal-600 bg-teal-50",
-    green: "text-teal-600 bg-teal-50",
-    amber: "text-amber-600 bg-amber-100",
-    rose: "text-red-600 bg-red-100",
+    cyan: 'text-teal-600 bg-teal-50',
+    green: 'text-teal-600 bg-teal-50',
+    amber: 'text-amber-600 bg-amber-100',
+    rose: 'text-red-600 bg-red-100',
   }[tone];
   return (
     <div className="rounded-md border border-gray-200 bg-white p-3 shadow-sm">

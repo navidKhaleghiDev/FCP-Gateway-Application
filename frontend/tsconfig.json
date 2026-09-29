@@ -2,10 +2,12 @@
   "compilerOptions": {
     "target": "es2022",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "types": ["vite/client"],
     "module": "ESNext",
     "skipLibCheck": true,
     "baseUrl": "./src",
     "paths": {
+      "@/*": ["*"],
       "@ui/*": ["components/*"],
       "@context/*": ["context/*"],
       "@src/*": ["*"]
@@ -27,5 +29,5 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["vite.config.ts", ".eslintrc.cjs", "src"],
-  "exclude": ["node_module", "dist", "vite.config.ts"],
+  "exclude": ["node_module", "dist", "vite.config.ts"]
 }

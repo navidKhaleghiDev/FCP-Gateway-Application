@@ -1,21 +1,25 @@
-import { Bell, CloudOff, RefreshCw, Wifi } from "lucide-react";
-import { useLocation } from "react-router-dom";
-import { useDeviceStore } from "@/stores/device-store";
-import { cn } from "@/lib/utils";
-import { fa, faNumber } from "@/lib/i18n";
+import { Bell, CloudOff, RefreshCw, Wifi } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
+import { useDeviceStore } from '@/stores/device-store';
+import { cn } from '@/lib/utils';
+import { fa, faNumber } from '@/lib/i18n';
+
+/**
+ * Renders the application header, connection state, and alert summary.
+ * @component
+ * @returns {JSX.Element} The application top bar.
+ */
 
 
 export function Topbar() {
   const connection = useDeviceStore((s) => s.connection);
   const alertRecord = useDeviceStore((state) => state.alerts);
-  const alerts = Object.values(alertRecord).filter(
-    (alert) => !alert.resolvedAt,
-  );
+  const alerts = Object.values(alertRecord).filter((alert) => !alert.resolvedAt);
   const location = useLocation();
   const title =
-    location.pathname === "/"
+    location.pathname === '/'
       ? fa.pages.map
-      : location.pathname.startsWith("/devices")
+      : location.pathname.startsWith('/devices')
         ? fa.pages.devices
         : fa.pages.alerts;
   return (
@@ -27,13 +31,13 @@ export function Topbar() {
       <div className="glass pointer-events-auto flex h-12 items-center gap-1 rounded-lg px-2">
         <span
           className={cn(
-            "flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium",
-            connection === "connected" ? "text-teal-600" : "text-amber-600",
+            'flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium',
+            connection === 'connected' ? 'text-teal-600' : 'text-amber-600'
           )}
         >
-          {connection === "connected" ? (
+          {connection === 'connected' ? (
             <Wifi size={15} />
-          ) : connection === "offline" ? (
+          ) : connection === 'offline' ? (
             <CloudOff size={15} />
           ) : (
             <RefreshCw className="animate-spin" size={15} />

@@ -1,5 +1,8 @@
-import { Search, X } from "lucide-react";
-import { fa } from "@/lib/i18n";
+import { useEffect, useState } from 'react';
+import { Search, X } from 'lucide-react';
+import { fa } from '@/lib/i18n';
+import { APP_CONFIG } from '@/config/app';
+import { useDebounce } from '@/hooks/use-debounce';
 
 interface IProps {
   value: string;
@@ -7,30 +10,43 @@ interface IProps {
   placeholder?: string;
 }
 
-//Todo : for this component also add the js doc also handel the search input debounce here to not to crash the backend 
+/**
+ * Search input that debounces changes to avoid excessive filtering or requests.
+ *
+ * @component
+ * @param {IProps} props - Controlled search input props.
+ * @param {string} props.value - Current committed search value.
+ * @param {(value: string) => void} props.onChange - Debounced value callback.
+ * @param {string} [props.placeholder] - Input placeholder text.
+ * @returns {JSX.Element} A debounced search field.
+ */
 
+export function SearchField({ value, onChange, placeholder = fa.map.search }: IProps) {
+  const [draft, setDraft] = useState(value);
+  const debouncedDraft = useDebounce(draft, APP_CONFIG.searchDebounceMs);
 
-export function SearchField({
-  value,
-  onChange,
-  placeholder = fa.map.search,
-}:IProps ) {
+  useEffect(() => setDraft(value), [value]);
+  useEffect(() => {
+    if (debouncedDraft !== value) onChange(debouncedDraft);
+  }, [debouncedDraft, onChange, value]);
+
+  const clear = () => {
+    setDraft('');
+  };
   return (
     <label className="relative block">
-      <Search
-        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
-        size={16}
-      />
+      <Search className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
       <input
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
+        value={draft}
+        onChange={(e) => setDraft(e.target.value)}
         placeholder={placeholder}
         className="h-10 w-full rounded-lg border border-gray-300 bg-white pl-9 pr-10 text-right text-sm text-gray-800 outline-none placeholder:text-right placeholder:text-gray-400 hover:border-gray-500 focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
       />
-      {value && (
+      {draft && (
         <button
           aria-label="پاک کردن جست‌وجو"
-          onClick={() => onChange("")}
+          type="button"
+          onClick={clear}
           className="absolute left-2 top-1/2 -translate-y-1/2 rounded p-1 text-gray-400 hover:text-gray-700"
         >
           <X size={14} />

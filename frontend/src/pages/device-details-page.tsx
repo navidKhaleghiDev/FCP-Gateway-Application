@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   Area,
   AreaChart,
@@ -8,7 +8,7 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-} from "recharts";
+} from 'recharts';
 import {
   Battery,
   ChevronLeft,
@@ -18,17 +18,16 @@ import {
   Signal,
   Thermometer,
   TriangleAlert,
-} from "lucide-react";
-import type { EventType, TelemetryPoint } from "@sentinel/shared";
-import { useDeviceStore } from "@/stores/device-store";
-import { useLiveData } from "@/hooks/use-live-data";
-import { Metric } from "@/components/atoms/metric";
-import { StatusBadge } from "@/components/atoms/status-badge";
-import { Button } from "@/components/atoms/button";
-import { deviceApi } from "@/lib/api";
-import { toast } from "sonner";
-import { eventLabel, fa, faNumber } from "@/lib/i18n";
-
+} from 'lucide-react';
+import type { EventType, TelemetryPoint } from '@sentinel/shared';
+import { useDeviceStore } from '@/stores/device-store';
+import { useLiveData } from '@/hooks/use-live-data';
+import { Metric } from '@/components/atoms/metric';
+import { StatusBadge } from '@/components/atoms/status-badge';
+import { Button } from '@/components/atoms/button';
+import { deviceApi } from '@/services/api';
+import { toast } from 'sonner';
+import { eventLabel, fa, faNumber } from '@/lib/i18n';
 
 export function DeviceDetailsPage() {
   useLiveData();
@@ -37,7 +36,7 @@ export function DeviceDetailsPage() {
   const device = useDeviceStore((s) => (id ? s.devices[id] : undefined));
   const [history, setHistory] = useState<TelemetryPoint[]>([]);
   useEffect(() => {
-    if (device?.status === "online")
+    if (device?.status === 'online')
       setHistory((h) =>
         [
           ...h,
@@ -47,7 +46,7 @@ export function DeviceDetailsPage() {
             battery: device.battery,
             signalStrength: device.signalStrength,
           },
-        ].slice(-40),
+        ].slice(-40)
       );
   }, [device?.version]);
   const run = async (eventType: EventType) => {
@@ -56,14 +55,12 @@ export function DeviceDetailsPage() {
       await deviceApi.simulate(id, eventType);
       toast.success(`سناریوی «${eventLabel[eventType]}» اجرا شد`);
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : "انجام عملیات ناموفق بود");
+      toast.error(e instanceof Error ? e.message : 'انجام عملیات ناموفق بود');
     }
   };
   if (!device)
     return (
-      <main className="grid h-screen place-items-center text-slate-400">
-        {fa.details.notFound}
-      </main>
+      <main className="grid h-screen place-items-center text-slate-400">{fa.details.notFound}</main>
     );
   return (
     <main className="min-h-screen bg-gray-50 px-4 pb-10 pt-24 md:pr-[100px]">
@@ -75,9 +72,7 @@ export function DeviceDetailsPage() {
         <div className="mt-3 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div>
             <div className="flex items-center gap-3">
-              <h2 className="m-0 text-2xl font-medium text-gray-900">
-                {device.name}
-              </h2>
+              <h2 className="m-0 text-2xl font-medium text-gray-900">{device.name}</h2>
               <StatusBadge status={device.status} />
               <StatusBadge priority={device.priority} />
             </div>
@@ -86,16 +81,14 @@ export function DeviceDetailsPage() {
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <Button variant="danger" onClick={() => run("urgent_alarm")}>
+            <Button variant="danger" onClick={() => run('urgent_alarm')}>
               <Flame size={15} />
               {fa.details.testAlarm}
             </Button>
-            <Button variant="ghost" onClick={() => run("technical_fault")}>
+            <Button variant="ghost" onClick={() => run('technical_fault')}>
               {fa.details.testFault}
             </Button>
-            <Button onClick={() => run("resolve_alarm")}>
-              {fa.details.resolve}
-            </Button>
+            <Button onClick={() => run('resolve_alarm')}>{fa.details.resolve}</Button>
           </div>
         </div>
         <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -117,21 +110,19 @@ export function DeviceDetailsPage() {
             value={faNumber(device.temperature.toFixed(1))}
             unit="°C"
             icon={Thermometer}
-            tone={device.temperature > 35 ? "amber" : "cyan"}
+            tone={device.temperature > 35 ? 'amber' : 'cyan'}
           />
           <Metric
             label={fa.details.acSupply}
             value={device.acPower ? fa.details.healthy : fa.details.failed}
             icon={PlugZap}
-            tone={device.acPower ? "green" : "rose"}
+            tone={device.acPower ? 'green' : 'rose'}
           />
         </div>
         <div className="mt-4 grid gap-4 lg:grid-cols-[1.7fr_1fr]">
           <section className="rounded-[1.5rem] border border-gray-200 bg-white p-5 shadow-sm">
             <div className="mb-5">
-              <h3 className="m-0 text-sm font-medium text-gray-900">
-                {fa.details.liveTemp}
-              </h3>
+              <h3 className="m-0 text-sm font-medium text-gray-900">{fa.details.liveTemp}</h3>
               <p className="mt-1 text-xs text-gray-500">{fa.details.history}</p>
             </div>
             <div className="h-72">
@@ -139,37 +130,29 @@ export function DeviceDetailsPage() {
                 <AreaChart data={history}>
                   <defs>
                     <linearGradient id="temp" x1="0" y1="0" x2="0" y2="1">
-                      <stop
-                        offset="5%"
-                        stopColor="#22d3ee"
-                        stopOpacity={0.35}
-                      />
+                      <stop offset="5%" stopColor="#22d3ee" stopOpacity={0.35} />
                       <stop offset="95%" stopColor="#22d3ee" stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid
-                    stroke="#26384a"
-                    strokeDasharray="3 3"
-                    vertical={false}
-                  />
+                  <CartesianGrid stroke="#26384a" strokeDasharray="3 3" vertical={false} />
                   <XAxis
                     dataKey="timestamp"
                     tickFormatter={(v) =>
                       new Date(v).toLocaleTimeString([], {
-                        minute: "2-digit",
-                        second: "2-digit",
+                        minute: '2-digit',
+                        second: '2-digit',
                       })
                     }
-                    tick={{ fill: "#64748b", fontSize: 10 }}
+                    tick={{ fill: '#64748b', fontSize: 10 }}
                   />
                   <YAxis
-                    domain={["dataMin - 2", "dataMax + 2"]}
-                    tick={{ fill: "#64748b", fontSize: 10 }}
+                    domain={['dataMin - 2', 'dataMax + 2']}
+                    tick={{ fill: '#64748b', fontSize: 10 }}
                   />
                   <Tooltip
                     contentStyle={{
-                      background: "#0c1c2c",
-                      border: "1px solid #26384a",
+                      background: '#0c1c2c',
+                      border: '1px solid #26384a',
                       borderRadius: 12,
                     }}
                   />
@@ -185,16 +168,10 @@ export function DeviceDetailsPage() {
             </div>
           </section>
           <section className="rounded-[1.5rem] border border-gray-200 bg-white p-5 shadow-sm">
-            <h3 className="m-0 text-sm font-medium text-gray-900">
-              {fa.details.operational}
-            </h3>
+            <h3 className="m-0 text-sm font-medium text-gray-900">{fa.details.operational}</h3>
             <div className="mt-5 space-y-3">
               {[
-                [
-                  Radio,
-                  fa.details.connectivity,
-                  device.status === "online" ? "آنلاین" : "آفلاین",
-                ],
+                [Radio, fa.details.connectivity, device.status === 'online' ? 'آنلاین' : 'آفلاین'],
                 [
                   TriangleAlert,
                   fa.details.technicalFault,
@@ -208,9 +185,7 @@ export function DeviceDetailsPage() {
                 [
                   PlugZap,
                   fa.details.acSupply,
-                  device.acPower
-                    ? fa.details.available
-                    : fa.details.unavailable,
+                  device.acPower ? fa.details.available : fa.details.unavailable,
                 ],
               ].map(([Icon, label, value]) => (
                 <div
@@ -221,24 +196,18 @@ export function DeviceDetailsPage() {
                     <Icon size={15} />
                     {label as string}
                   </span>
-                  <strong className="text-xs font-medium text-gray-900">
-                    {value as string}
-                  </strong>
+                  <strong className="text-xs font-medium text-gray-900">{value as string}</strong>
                 </div>
               ))}
             </div>
             <div className="mt-5 grid grid-cols-2 gap-2">
               <Button
                 variant="ghost"
-                onClick={() =>
-                  run(device.status === "online" ? "disconnect" : "reconnect")
-                }
+                onClick={() => run(device.status === 'online' ? 'disconnect' : 'reconnect')}
               >
-                {device.status === "online"
-                  ? fa.details.disconnect
-                  : fa.details.reconnect}
+                {device.status === 'online' ? fa.details.disconnect : fa.details.reconnect}
               </Button>
-              <Button variant="ghost" onClick={() => run("power_failure")}>
+              <Button variant="ghost" onClick={() => run('power_failure')}>
                 {fa.details.powerFailure}
               </Button>
             </div>

@@ -1,6 +1,6 @@
-import { create } from "zustand";
-import type { Alert, Device } from "@sentinel/shared";
-type ConnectionState = "connecting" | "connected" | "reconnecting" | "offline";
+import { create } from 'zustand';
+import type { Alert, Device } from '@sentinel/shared';
+type ConnectionState = 'connecting' | 'connected' | 'reconnecting' | 'offline';
 interface DeviceState {
   devices: Record<string, Device>;
   alerts: Record<string, Alert>;
@@ -15,7 +15,7 @@ interface DeviceState {
 export const useDeviceStore = create<DeviceState>((set) => ({
   devices: {},
   alerts: {},
-  connection: "connecting",
+  connection: 'connecting',
   selectedId: null,
   hydrate: (devices, alerts = []) =>
     set({
@@ -28,13 +28,10 @@ export const useDeviceStore = create<DeviceState>((set) => ({
       if (current && current.version >= incoming.version) return s;
       return { devices: { ...s.devices, [incoming.id]: incoming } };
     }),
-  upsertAlert: (alert) =>
-    set((s) => ({ alerts: { ...s.alerts, [alert.id]: alert } })),
+  upsertAlert: (alert) => set((s) => ({ alerts: { ...s.alerts, [alert.id]: alert } })),
   setConnection: (connection) => set({ connection }),
   select: (selectedId) => set({ selectedId }),
 }));
 export const selectDevices = (s: DeviceState) => Object.values(s.devices);
 export const selectAlerts = (s: DeviceState) =>
-  Object.values(s.alerts).sort((a, b) =>
-    b.timestamp.localeCompare(a.timestamp),
-  );
+  Object.values(s.alerts).sort((a, b) => b.timestamp.localeCompare(a.timestamp));

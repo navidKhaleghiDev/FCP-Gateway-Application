@@ -1,19 +1,18 @@
-import {
-  Activity,
-  AlertTriangle,
-  Map,
-  PanelLeftClose,
-  RadioTower,
-  Settings,
-} from "lucide-react";
-import { NavLink } from "react-router-dom";
-import { cn } from "@/lib/utils";
-import { fa } from "@/lib/i18n";
+import { Activity, AlertTriangle, Map, PanelLeftClose, RadioTower, Settings } from 'lucide-react';
+import { NavLink } from 'react-router-dom';
+import { cn } from '@/lib/utils';
+import { fa } from '@/lib/i18n';
 const items = [
-  { to: "/", label: fa.nav.map, icon: Map },
-  { to: "/devices", label: fa.nav.devices, icon: RadioTower },
-  { to: "/alerts", label: fa.nav.alerts, icon: AlertTriangle },
+  { to: '/', label: fa.nav.map, icon: Map },
+  { to: '/devices', label: fa.nav.devices, icon: RadioTower },
+  { to: '/alerts', label: fa.nav.alerts, icon: AlertTriangle },
 ];
+
+/**
+ * Renders the primary application navigation sidebar.
+ * @component
+ * @returns {JSX.Element} The application sidebar.
+ */
 
 
 export function Sidebar() {
@@ -27,12 +26,12 @@ export function Sidebar() {
           <NavLink
             key={to}
             to={to}
-            end={to === "/"}
+            end={to === '/'}
             title={label}
             className={({ isActive }) =>
               cn(
-                "group relative grid h-10 place-items-center rounded-lg text-gray-500 transition hover:bg-gray-100 hover:text-gray-800",
-                isActive && "bg-teal-50 text-teal-600",
+                'group relative grid h-10 place-items-center rounded-lg text-gray-500 transition hover:bg-gray-100 hover:text-gray-800',
+                isActive && 'bg-teal-50 text-teal-600'
               )
             }
           >
