@@ -1,7 +1,7 @@
 import type { Alert, ApiResponse, DashboardSummary, Device, EventType } from '@sentinel/shared';
 import { http } from '@/services/http';
 
-export { http as api } from '@/services/http';
+export { http, http as api } from '@/services/http';
 
 export const deviceApi = {
   list: () => http.get<ApiResponse<Device[]>>('/api/devices').then((response) => response.data.data),

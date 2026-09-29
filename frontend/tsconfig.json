@@ -2,7 +2,8 @@
   "compilerOptions": {
     "target": "es2022",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "types": ["vite/client"],
+    "types": ["vite/client", "node"],
+    "useDefineForClassFields": true,
     "module": "ESNext",
     "skipLibCheck": true,
     "baseUrl": "./src",
@@ -14,7 +15,7 @@
     },
 
     /* Bundler mode */
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "allowSyntheticDefaultImports": true,
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
@@ -28,6 +29,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["vite.config.ts", ".eslintrc.cjs", "src"],
-  "exclude": ["node_module", "dist", "vite.config.ts"]
+  "include": ["src", "vite.config.ts"],
+  "exclude": ["node_modules", "dist", "coverage"]
 }
