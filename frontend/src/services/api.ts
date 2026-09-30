@@ -1,4 +1,4 @@
-import type { Alert, ApiResponse, DashboardSummary, Device, EventType } from '@sentinel/shared';
+import type { Alert, ApiResponse, DashboardSummary, Device, EventType } from '@/types';
 import { http } from '@/services/http';
 
 export { http, http as api } from '@/services/http';

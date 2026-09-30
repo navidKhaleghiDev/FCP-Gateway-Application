@@ -1,4 +1,4 @@
-import type { Device, DevicePriority, DeviceStatus } from '@sentinel/shared';
+import type { Device, DevicePriority, DeviceStatus } from '@/types';
 export function filterDevices(
   devices: Device[],
   search: string,

@@ -82,7 +82,7 @@ docker compose logs backend frontend postgres
 
 - Frontend: React 19, TypeScript, Vite, TanStack Query, Zustand, Axios, React Router, Tailwind CSS, Leaflet, Recharts and Sonner
 - Backend: Node.js, TypeScript, Express 5, Socket.IO and PostgreSQL
-- Contracts: `packages/shared` is the single source of truth for device, alert, API and socket types
+- Contracts: `frontend/src/types.ts` and `backend/src/types.ts` define each project's API and socket payload types
 
 ## API
 
@@ -110,7 +110,7 @@ Socket events are `device:updated`, `device:disconnected`, `device:connected`, `
 - `frontend/src/services`: singleton socket lifecycle
 - `frontend/src/stores`: ordering-safe live state
 - `backend/src/simulator.ts`: authoritative runtime state and realistic telemetry
-- `packages/shared`: shared frontend/backend contracts
+- `frontend/src/types.ts`, `backend/src/types.ts`: local API and socket contracts
 
 The simulator updates a subset of online devices every 1-3 seconds. Offline gateways do not emit ordinary telemetry. Live updates do not reset search, filters or pagination.
 

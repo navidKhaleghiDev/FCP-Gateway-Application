@@ -1,5 +1,5 @@
 import { Pool } from "pg";
-import type { Device } from "@sentinel/shared";
+import type { Device } from "./types.js";
 import { config } from "./config.js";
 
 const pool = config.databaseUrl

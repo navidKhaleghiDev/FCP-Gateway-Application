@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import { ChevronLeft, ChevronRight, Eye, Search } from 'lucide-react';
-import type { DevicePriority, DeviceStatus } from '@sentinel/shared';
+import type { DevicePriority, DeviceStatus } from '@/types';
 import { useNavigate } from 'react-router-dom';
 import { useDeviceStore } from '@/stores/device-store';
 import { useLiveData } from '@/hooks/use-live-data';

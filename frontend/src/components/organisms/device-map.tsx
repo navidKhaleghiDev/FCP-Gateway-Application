@@ -3,7 +3,7 @@ import { Circle, MapContainer, Marker, Popup, TileLayer, ZoomControl } from 'rea
 import L from 'leaflet';
 import { ExternalLink } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import type { Device } from '@sentinel/shared';
+import type { Device } from '@/types';
 import { StatusBadge } from '@/components/atoms/status-badge';
 import { Button } from '@/components/atoms/button';
 import { useDeviceStore } from '@/stores/device-store';

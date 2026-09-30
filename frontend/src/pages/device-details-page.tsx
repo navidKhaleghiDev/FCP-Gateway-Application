@@ -19,7 +19,7 @@ import {
   Thermometer,
   TriangleAlert,
 } from 'lucide-react';
-import type { EventType, TelemetryPoint } from '@sentinel/shared';
+import type { EventType, TelemetryPoint } from '@/types';
 import { useDeviceStore } from '@/stores/device-store';
 import { useLiveData } from '@/hooks/use-live-data';
 import { Metric } from '@/components/atoms/metric';

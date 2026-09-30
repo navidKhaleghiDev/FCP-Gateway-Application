@@ -1,5 +1,5 @@
 import { Battery, ChevronRight, Radio, Search, Signal, TriangleAlert, X } from 'lucide-react';
-import type { Device } from '@sentinel/shared';
+import type { Device } from '@/types';
 import { SearchField } from '@/components/molecules/search-field';
 import { StatusBadge } from '@/components/atoms/status-badge';
 import { relativeTime, cn } from '@/lib/utils';

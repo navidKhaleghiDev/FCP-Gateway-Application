@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { Alert, Device } from '@sentinel/shared';
+import type { Alert, Device } from '@/types';
 type ConnectionState = 'connecting' | 'connected' | 'reconnecting' | 'offline';
 interface DeviceState {
   devices: Record<string, Device>;

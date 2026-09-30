@@ -5,7 +5,7 @@ import type {
   Device,
   EventType,
   ServerEvent,
-} from "@sentinel/shared";
+} from "./types.js";
 import type { Server } from "socket.io";
 
 const clamp = (n: number, min: number, max: number) =>

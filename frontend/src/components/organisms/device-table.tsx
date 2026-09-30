@@ -1,5 +1,5 @@
 import { Eye } from 'lucide-react';
-import type { Device } from '@sentinel/shared';
+import type { Device } from '@/types';
 import { Button } from '@/components/atoms/button';
 import { StatusBadge } from '@/components/atoms/status-badge';
 import { DataTable, type DataTableColumn } from '@/components/organisms/data-table';

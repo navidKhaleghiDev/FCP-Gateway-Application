@@ -1,4 +1,4 @@
-import type { DevicePriority, DeviceStatus } from '@sentinel/shared';
+import type { DevicePriority, DeviceStatus } from '@/types';
 import faJson from '@/locales/fa-correct.json';
 
 const legacyFaShape = {

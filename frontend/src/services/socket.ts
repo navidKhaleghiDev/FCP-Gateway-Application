@@ -1,5 +1,5 @@
 import { io, type Socket } from 'socket.io-client';
-import type { Alert, Device } from '@sentinel/shared';
+import type { Alert, Device } from '@/types';
 import { toast } from 'sonner';
 import { deviceApi } from '@/services/api';
 import { useDeviceStore } from '@/stores/device-store';
