@@ -36,7 +36,7 @@ export function KpiCard({ label, value, icon: Icon, tone, caption }: IProps) {
           <Icon size={19} />
         </div>
       </div>
-      <p className="m-0 text-[11px] text-gray-400">{caption}</p>
+      <p className="m-0 text-[clamp(10px,0.75vw,11px)] text-gray-400">{caption}</p>
     </div>
   );
 }

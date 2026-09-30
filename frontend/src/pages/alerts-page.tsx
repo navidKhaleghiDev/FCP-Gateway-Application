@@ -17,8 +17,8 @@ export function AlertsPage() {
   );
   const nav = useNavigate();
   return (
-    <main className="min-h-screen bg-gray-50 px-4 pb-8 pt-24 md:pr-[100px]">
-      <section className="mx-auto max-w-5xl rounded-[1.5rem] border border-gray-200 bg-white p-5 shadow-sm">
+    <main className="page-shell">
+      <section className="mx-auto max-w-5xl surface-panel p-5">
         <h2 className="m-0 text-lg font-medium text-gray-900">{fa.alerts.title}</h2>
         <p className="mt-1 text-sm text-gray-500">{fa.alerts.subtitle}</p>
         <div className="mt-5 space-y-2">
@@ -40,7 +40,7 @@ export function AlertsPage() {
                 <p className="my-1 text-xs text-gray-500">
                   <span dir="ltr">{a.deviceId}</span> · {eventLabel[a.kind]}
                 </p>
-                <small className="text-[10px] text-gray-400">
+                <small className="text-[clamp(9px,0.7vw,10px)] text-gray-400">
                   {a.resolvedAt
                     ? `${fa.alerts.resolved} ${relativeTime(a.resolvedAt)}`
                     : `${fa.alerts.opened} ${relativeTime(a.timestamp)}`}

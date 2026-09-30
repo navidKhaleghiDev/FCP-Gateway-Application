@@ -1,8 +1,30 @@
 @import 'tailwindcss';
 @import 'leaflet/dist/leaflet.css';
 
+@font-face {
+  font-family: Kalameh;
+  src: url('./assets/fonts/KalamehWeb-Regular.woff') format('woff');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Kalameh;
+  src: url('./assets/fonts/KalamehWeb-SemiBold.woff') format('woff');
+  font-style: normal;
+  font-weight: 500 900;
+  font-display: swap;
+}
+
 :root {
   font-family: Kalameh, Vazirmatn, Tahoma, ui-sans-serif, system-ui, sans-serif;
+  --text-xs: clamp(11px, 0.18vw + 10.5px, 11.5px);
+  --text-sm: clamp(12px, 0.3vw + 10.5px, 13px);
+  --text-base: clamp(13px, 0.35vw + 11px, 15px);
+  --text-lg: clamp(15px, 0.4vw + 13px, 17px);
+  --text-xl: clamp(17px, 0.45vw + 14px, 19px);
+  --text-2xl: clamp(19px, 0.55vw + 16px, 22px);
   color: #1f2937;
   background: #f8fafc;
   font-synthesis: none;
@@ -16,11 +38,29 @@ body {
   min-height: 100vh;
   background: #f8fafc;
   direction: rtl;
+  font-size: var(--text-base);
 }
 button,
 input,
 select {
   font: inherit;
+}
+button {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: not-allowed;
+}
+:focus-visible {
+  outline: 2px solid #0d9488;
+  outline-offset: 2px;
+}
+.map-search-input:focus-visible {
+  outline: none;
+}
+::selection {
+  background: #ccfbf1;
+  color: #134e4a;
 }
 .glass {
   background: rgba(255, 255, 255, 0.96);
@@ -28,67 +68,56 @@ select {
   border: 1px solid #e5e7eb;
   box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
 }
+.page-shell {
+  min-height: 100vh;
+  padding: 6rem 1rem 6.5rem;
+  background: radial-gradient(circle at 10% 0%, #e8f8f5, transparent 28rem), #f8fafc;
+}
+@media (min-width: 768px) {
+  .page-shell {
+    padding-right: 80px;
+    padding-bottom: 2.5rem;
+  }
+}
+.surface-panel {
+  border: 1px solid #e2e8f0;
+  border-radius: 1.5rem;
+  background: #fff;
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.045);
+}
 .leaflet-container {
   width: 100%;
   height: 100%;
   background: #dce5e8;
+  font-family: inherit;
+  font-size: var(--text-xs);
+}
+.leaflet-popup-content,
+.leaflet-control-attribution {
+  font-family: Kalameh, Vazirmatn, Tahoma, sans-serif;
+  font-size: var(--text-xs);
 }
 .leaflet-control-zoom a {
   background: white !important;
   color: #374151 !important;
   border-color: #e5e7eb !important;
 }
-.gateway-marker {
-  display: grid;
-  place-items: center;
-  width: 28px !important;
-  height: 28px !important;
-  margin: -14px 0 0 -14px !important;
-  border-radius: 50%;
-  border: 3px solid white;
-  box-shadow: 0 3px 12px rgba(2, 10, 18, 0.35);
-  color: white;
-  font-size: 9px;
-  font-weight: 800;
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #b7c9cb transparent;
 }
-.gateway-marker::after {
-  content: '';
-  width: 7px;
-  height: 7px;
-  border: 2px solid currentColor;
-  border-radius: 50%;
-  box-shadow: 0 0 0 2px currentColor;
+*::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
 }
-.marker-normal {
-  background: #18a875;
-  color: #18a875;
+*::-webkit-scrollbar-track,
+*::-webkit-scrollbar-corner {
+  background: transparent;
 }
-.marker-warning {
-  background: #f5a524;
-  color: #f5a524;
-}
-.marker-urgent {
-  background: #ef4757;
-  color: #ef4757;
-  animation: pulse 1.4s infinite;
-}
-.marker-offline {
-  background: #64748b;
-  color: #64748b;
-}
-@keyframes pulse {
-  50% {
-    box-shadow: 0 0 0 12px rgba(239, 71, 87, 0);
-  }
-  0% {
-    box-shadow: 0 0 0 0 rgba(239, 71, 87, 0.35);
-  }
-}
-.scrollbar::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-.scrollbar::-webkit-scrollbar-thumb {
-  background: #d1d5db;
+*::-webkit-scrollbar-thumb {
   border-radius: 999px;
+  background: #b7c9cb;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: #0d9488;
 }

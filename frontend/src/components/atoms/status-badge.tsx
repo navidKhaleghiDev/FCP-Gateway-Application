@@ -21,7 +21,7 @@ export function StatusBadge({ status, priority }: IProps) {
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-[11px] font-medium',
+        'inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-[clamp(10px,0.75vw,11px)] font-medium',
         value === 'normal' && 'bg-teal-50 text-teal-600',
         value === 'online' && 'bg-teal-50 text-teal-600',
         value === 'warning' && 'bg-amber-100 text-amber-700',

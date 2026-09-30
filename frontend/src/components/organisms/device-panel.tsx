@@ -29,7 +29,7 @@ export function DevicePanel({ devices, search, setSearch, filter, setFilter }: I
   const selected = useDeviceStore((s) => s.selectedId);
   const select = useDeviceStore((s) => s.select);
   return (
-    <section className="glass fixed bottom-4 right-3 top-[82px] z-[900] flex w-[360px] flex-col overflow-hidden rounded-[1.5rem] md:right-[100px]">
+    <section className="glass fixed bottom-4 right-3 top-[82px] z-[900] flex w-[360px] flex-col overflow-hidden rounded-[1.5rem] md:right-[80px]">
       <div className="border-b border-gray-200 p-4">
         <div className="mb-3 flex items-center justify-between">
           <div>
@@ -47,7 +47,7 @@ export function DevicePanel({ devices, search, setSearch, filter, setFilter }: I
           <button
             onClick={() => setFilter('all')}
             className={cn(
-              'rounded-lg px-2 py-1 text-[11px]',
+              'rounded-lg px-2 py-1 text-[clamp(10px,0.75vw,11px)]',
               filter === 'all'
                 ? 'bg-teal-50 font-medium text-teal-600'
                 : 'text-gray-500 hover:bg-gray-100'
@@ -58,7 +58,7 @@ export function DevicePanel({ devices, search, setSearch, filter, setFilter }: I
           <button
             onClick={() => setFilter('attention')}
             className={cn(
-              'rounded-lg px-2 py-1 text-[11px]',
+              'rounded-lg px-2 py-1 text-[clamp(10px,0.75vw,11px)]',
               filter === 'attention'
                 ? 'bg-teal-50 font-medium text-teal-600'
                 : 'text-gray-500 hover:bg-gray-100'
@@ -99,14 +99,14 @@ export function DevicePanel({ devices, search, setSearch, filter, setFilter }: I
                   <strong className="block truncate text-xs font-medium text-gray-900">
                     {d.name}
                   </strong>
-                  <small className="block truncate text-[10px] text-gray-500">
+                  <small className="block truncate text-[clamp(9px,0.7vw,10px)] text-gray-500">
                     {d.buildingName}
                   </small>
                 </span>
               </div>
               <ChevronRight size={15} className="rotate-180 text-gray-400" />
             </div>
-            <div className="mt-3 flex items-center justify-between text-[10px] text-gray-500">
+            <div className="mt-3 flex items-center justify-between text-[clamp(9px,0.7vw,10px)] text-gray-500">
               <StatusBadge
                 status={d.status === 'offline' ? 'offline' : undefined}
                 priority={d.status === 'online' ? d.priority : undefined}

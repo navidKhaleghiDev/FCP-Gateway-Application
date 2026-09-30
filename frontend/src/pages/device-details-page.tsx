@@ -63,7 +63,7 @@ export function DeviceDetailsPage() {
       <main className="grid h-screen place-items-center text-slate-400">{fa.details.notFound}</main>
     );
   return (
-    <main className="min-h-screen bg-gray-50 px-4 pb-10 pt-24 md:pr-[100px]">
+    <main className="page-shell">
       <div className="mx-auto max-w-6xl">
         <Button variant="ghost" onClick={() => nav(-1)}>
           <ChevronLeft size={16} />
@@ -120,7 +120,7 @@ export function DeviceDetailsPage() {
           />
         </div>
         <div className="mt-4 grid gap-4 lg:grid-cols-[1.7fr_1fr]">
-          <section className="rounded-[1.5rem] border border-gray-200 bg-white p-5 shadow-sm">
+          <section className="surface-panel p-5">
             <div className="mb-5">
               <h3 className="m-0 text-sm font-medium text-gray-900">{fa.details.liveTemp}</h3>
               <p className="mt-1 text-xs text-gray-500">{fa.details.history}</p>
@@ -167,7 +167,7 @@ export function DeviceDetailsPage() {
               </ResponsiveContainer>
             </div>
           </section>
-          <section className="rounded-[1.5rem] border border-gray-200 bg-white p-5 shadow-sm">
+          <section className="surface-panel p-5">
             <h3 className="m-0 text-sm font-medium text-gray-900">{fa.details.operational}</h3>
             <div className="mt-5 space-y-3">
               {[

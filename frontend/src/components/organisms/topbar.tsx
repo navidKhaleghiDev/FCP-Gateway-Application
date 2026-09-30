@@ -22,10 +22,11 @@ export function Topbar() {
       : location.pathname.startsWith('/devices')
         ? fa.pages.devices
         : fa.pages.alerts;
+  if (location.pathname === '/') return null;
   return (
-    <header className="pointer-events-none fixed left-3 right-3 top-3 z-[1000] flex flex-row-reverse items-center justify-between md:right-[100px]">
+    <header className="pointer-events-none fixed left-3 right-3 top-3 z-[1000] flex flex-row-reverse items-center justify-between md:right-[80px]">
       <div className="glass pointer-events-auto rounded-lg px-4 py-2.5 text-right">
-        <p className="m-0 text-[10px] font-medium text-teal-600">{fa.brand}</p>
+        <p className="m-0 text-[clamp(9px,0.7vw,10px)] font-medium text-teal-600">{fa.brand}</p>
         <h1 className="m-0 text-sm font-medium text-gray-900">{title}</h1>
       </div>
       <div className="glass pointer-events-auto flex h-12 items-center gap-1 rounded-lg px-2">
@@ -48,7 +49,7 @@ export function Topbar() {
         <button className="relative rounded-lg p-2 text-gray-500 hover:bg-gray-100">
           <Bell size={18} />
           {alerts.length > 0 && (
-            <b className="absolute right-0 top-0 grid min-w-4 place-items-center rounded-full bg-red-500 px-1 text-[9px] text-white">
+            <b className="absolute right-0 top-0 grid min-w-4 place-items-center rounded-full bg-red-500 px-1 text-[clamp(9px,0.65vw,9.5px)] text-white">
               {faNumber(alerts.length)}
             </b>
           )}

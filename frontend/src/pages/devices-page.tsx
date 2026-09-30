@@ -61,9 +61,9 @@ export function DevicesPage() {
   }, [currentPage, page, setUrlState]);
 
   return (
-    <main className="min-h-screen bg-gray-50 px-4 pb-8 pt-24 md:pr-[100px]">
+    <main className="page-shell">
       <div className="mx-auto max-w-[1450px]">
-        <section className="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
+        <section className="surface-panel overflow-hidden">
           <div className="flex flex-col gap-3 border-b border-gray-200 px-5 py-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
               <h2 className="m-0 text-lg font-medium text-gray-900">{fa.fleet.title}</h2>
