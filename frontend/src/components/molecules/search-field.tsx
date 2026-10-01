@@ -40,7 +40,7 @@ export function SearchField({ value, onChange, placeholder = fa.map.search }: IP
         value={draft}
         onChange={(e) => setDraft(e.target.value)}
         placeholder={placeholder}
-        className="h-10 w-full rounded-lg border border-gray-300 bg-white pl-9 pr-10 text-right text-sm text-gray-800 outline-none placeholder:text-right placeholder:text-gray-400 hover:border-gray-500 focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
+        className="search-field-input h-10 w-full rounded-lg border-0 bg-slate-50 pl-9 pr-10 text-right text-sm text-gray-800 outline-none placeholder:text-right placeholder:text-gray-400"
       />
       {draft && (
         <button

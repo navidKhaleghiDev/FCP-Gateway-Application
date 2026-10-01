@@ -32,16 +32,3 @@ export function GatewayAlertsContent({ alerts }: { alerts: Alert[] }) {
     </section>
   );
 }
-
-export function GatewayAlertsPanel({ alerts }: { alerts: Alert[] }) {
-  return (
-    <aside className="fixed bottom-3 left-3 top-14 z-[850] hidden w-[320px] flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl xl:flex" aria-label="هشدارهای درگاه انتخاب‌شده">
-      <div className="border-b border-gray-100 px-4 py-3">
-        <h2 className="m-0 text-base font-semibold text-gray-900">{fa.alerts.title}</h2>
-      </div>
-      <div className="min-h-0 flex-1 overflow-y-auto p-4">
-        <GatewayAlertsContent alerts={alerts} />
-      </div>
-    </aside>
-  );
-}

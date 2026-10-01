@@ -1,11 +1,10 @@
-import { AlertTriangle, Map, RadioTower } from 'lucide-react';
+import { Map, RadioTower } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { fa } from '@/lib/i18n';
 const items = [
   { to: '/', label: fa.nav.map, icon: Map },
   { to: '/devices', label: fa.nav.devices, icon: RadioTower },
-  { to: '/alerts', label: fa.nav.alerts, icon: AlertTriangle },
 ];
 
 /**

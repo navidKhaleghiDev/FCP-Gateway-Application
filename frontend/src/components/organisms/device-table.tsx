@@ -4,7 +4,6 @@ import { Button } from '@/components/atoms/button';
 import { StatusBadge } from '@/components/atoms/status-badge';
 import { DataTable, type DataTableColumn } from '@/components/organisms/data-table';
 import { fa, faNumber } from '@/lib/i18n';
-import { relativeTime } from '@/lib/utils';
 
 interface DeviceTableProps {
   devices: readonly Device[];
@@ -27,7 +26,13 @@ export function DeviceTable({ devices, onView }: DeviceTableProps) {
       header: fa.fleet.gateway,
       cell: (d) => (
         <>
-          <strong className="block font-medium text-gray-900">{d.name}</strong>
+          <span className="flex items-center gap-2">
+            <strong className="truncate font-semibold text-gray-900">{d.name}</strong>
+            <span className="relative inline-flex h-3 w-3 shrink-0 items-center justify-center" role="img" aria-label={fa.status[d.status]} title={fa.status[d.status]}>
+              {d.status === 'online' && <span className="absolute h-2.5 w-2.5 animate-ping rounded-full bg-teal-400 opacity-70 motion-reduce:animate-none" />}
+              <span className={d.status === 'online' ? 'relative h-2.5 w-2.5 rounded-full bg-teal-600' : 'relative h-2.5 w-2.5 rounded-full bg-slate-400'} />
+            </span>
+          </span>
           <span className="text-xs text-gray-500" dir="ltr">
             {d.id}
           </span>
@@ -38,9 +43,8 @@ export function DeviceTable({ devices, onView }: DeviceTableProps) {
       key: 'building',
       header: fa.fleet.building,
       cell: (d) => d.buildingName,
-      className: 'px-5 py-3 text-gray-700',
+      className: 'px-5 py-5 text-gray-700',
     },
-    { key: 'status', header: fa.fleet.status, cell: (d) => <StatusBadge status={d.status} /> },
     {
       key: 'priority',
       header: fa.fleet.priority,
@@ -50,33 +54,26 @@ export function DeviceTable({ devices, onView }: DeviceTableProps) {
       key: 'battery',
       header: fa.fleet.battery,
       cell: (d) => `${faNumber(Math.round(d.battery))}٪`,
-      className: 'px-5 py-3 text-gray-700',
+      className: 'px-5 py-5 text-gray-700',
     },
     {
       key: 'signal',
       header: fa.fleet.signal,
       cell: (d) => <span dir="ltr">{faNumber(d.signalStrength)} dBm</span>,
-      className: 'px-5 py-3 text-gray-700',
+      className: 'px-5 py-5 text-gray-700',
     },
     {
       key: 'temperature',
       header: fa.fleet.temperature,
       cell: (d) => `${faNumber(d.temperature.toFixed(1))}°C`,
-      className: 'px-5 py-3 text-gray-700',
-    },
-    {
-      key: 'lastSeen',
-      header: fa.fleet.lastSeen,
-      cell: (d) => relativeTime(d.lastSeen),
-      className: 'px-5 py-3 text-gray-500',
+      className: 'px-5 py-5 text-gray-700',
     },
     {
       key: 'actions',
       header: '',
       cell: (d) => (
-        <Button variant="ghost" onClick={() => onView(d.id)}>
+        <Button variant="ghost" className="h-9 w-9 p-0" aria-label={fa.common.view + " " + d.name} title={fa.common.view} onClick={() => onView(d.id)}>
           <Eye size={15} />
-          {fa.common.view}
         </Button>
       ),
     },

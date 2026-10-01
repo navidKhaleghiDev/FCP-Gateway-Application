@@ -32,13 +32,6 @@ export const router = createBrowserRouter([
         },
       },
       {
-        path: ROUTES.ALERTS,
-        lazy: async () => {
-          const { AlertsPage } = await import('@/pages/alerts-page');
-          return { Component: AlertsPage };
-        },
-      },
-      {
         path: '*',
         lazy: async () => {
           const { NotFoundPage } = await import('@/pages/not-found-page');

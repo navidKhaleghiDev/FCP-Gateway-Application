@@ -19,6 +19,7 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
  * @param {string} [props.className] - Additional utility classes.
  * @returns {JSX.Element} A styled select element.
  */
+
 export function Select({ options, className, ...props }: SelectProps) {
   return (
     <select

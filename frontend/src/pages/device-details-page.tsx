@@ -35,6 +35,9 @@ export function DeviceDetailsPage() {
   const nav = useNavigate();
   const device = useDeviceStore((s) => (id ? s.devices[id] : undefined));
   const [history, setHistory] = useState<TelemetryPoint[]>([]);
+  const [pendingAction, setPendingAction] = useState<{ type: EventType; label: string } | null>(null);
+  const [isRunning, setIsRunning] = useState(false);
+  const requestAction = (type: EventType, label: string) => setPendingAction({ type, label });
   useEffect(() => {
     if (device?.status === 'online')
       setHistory((h) =>
@@ -51,11 +54,15 @@ export function DeviceDetailsPage() {
   }, [device?.version]);
   const run = async (eventType: EventType) => {
     if (!id) return;
+    setIsRunning(true);
     try {
       await deviceApi.simulate(id, eventType);
+      setPendingAction(null);
       toast.success(`سناریوی «${eventLabel[eventType]}» اجرا شد`);
     } catch (e) {
       toast.error(e instanceof Error ? e.message : 'انجام عملیات ناموفق بود');
+    } finally {
+      setIsRunning(false);
     }
   };
   if (!device)
@@ -63,12 +70,13 @@ export function DeviceDetailsPage() {
       <main className="grid h-screen place-items-center text-slate-400">{fa.details.notFound}</main>
     );
   return (
-    <main className="page-shell">
+    <main className="page-shell device-details-page">
       <div className="mx-auto max-w-6xl">
-        <Button variant="ghost" onClick={() => nav(-1)}>
-          <ChevronLeft size={16} />
-          {fa.details.back}
-        </Button>
+        <div className="flex justify-end">
+          <Button variant="ghost" className="h-10 w-10 p-0" aria-label={fa.details.back} title={fa.details.back} onClick={() => nav(-1)}>
+            <ChevronLeft size={16} />
+          </Button>
+        </div>
         <div className="mt-3 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div>
             <div className="flex items-center gap-3">
@@ -79,16 +87,6 @@ export function DeviceDetailsPage() {
             <p className="text-sm text-gray-500">
               {device.id} · {device.buildingName}
             </p>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <Button variant="danger" onClick={() => run('urgent_alarm')}>
-              <Flame size={15} />
-              {fa.details.testAlarm}
-            </Button>
-            <Button variant="ghost" onClick={() => run('technical_fault')}>
-              {fa.details.testFault}
-            </Button>
-            <Button onClick={() => run('resolve_alarm')}>{fa.details.resolve}</Button>
           </div>
         </div>
         <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -119,7 +117,7 @@ export function DeviceDetailsPage() {
             tone={device.acPower ? 'green' : 'rose'}
           />
         </div>
-        <div className="mt-4 grid gap-4 lg:grid-cols-[1.7fr_1fr]">
+        <div className="mt-4 grid gap-4 lg:grid-cols-[1.2fr_1fr]">
           <section className="surface-panel p-5">
             <div className="mb-5">
               <h3 className="m-0 text-sm font-medium text-gray-900">{fa.details.liveTemp}</h3>
@@ -169,7 +167,8 @@ export function DeviceDetailsPage() {
           </section>
           <section className="surface-panel p-5">
             <h3 className="m-0 text-sm font-medium text-gray-900">{fa.details.operational}</h3>
-            <div className="mt-5 space-y-3">
+            <div className="mt-5 grid gap-3 lg:grid-cols-2">
+              <div className="space-y-3">
               {[
                 [Radio, fa.details.connectivity, device.status === 'online' ? 'آنلاین' : 'آفلاین'],
                 [
@@ -200,20 +199,47 @@ export function DeviceDetailsPage() {
                 </div>
               ))}
             </div>
-            <div className="mt-5 grid grid-cols-2 gap-2">
-              <Button
-                variant="ghost"
-                onClick={() => run(device.status === 'online' ? 'disconnect' : 'reconnect')}
-              >
-                {device.status === 'online' ? fa.details.disconnect : fa.details.reconnect}
-              </Button>
-              <Button variant="ghost" onClick={() => run('power_failure')}>
-                {fa.details.powerFailure}
-              </Button>
+            <div className="min-w-0 lg:border-r lg:border-gray-200 lg:pr-3">
+              <h4 className="mb-3 text-sm font-medium text-gray-900">عملیات درگاه</h4>
+              <div className="grid gap-2">
+                <Button variant="danger" className="w-full" onClick={() => requestAction('urgent_alarm', fa.details.testAlarm)}>
+                  <Flame size={15} />
+                  {fa.details.testAlarm}
+                </Button>
+                <Button variant="ghost" className="w-full" onClick={() => requestAction('technical_fault', fa.details.testFault)}>
+                  {fa.details.testFault}
+                </Button>
+                <Button className="w-full" onClick={() => requestAction('resolve_alarm', fa.details.resolve)}>
+                  {fa.details.resolve}
+                </Button>
+                <Button variant="ghost" className="w-full" onClick={() => requestAction(device.status === 'online' ? 'disconnect' : 'reconnect', device.status === 'online' ? fa.details.disconnect : fa.details.reconnect)}>
+                  {device.status === 'online' ? fa.details.disconnect : fa.details.reconnect}
+                </Button>
+                <Button variant="ghost" className="w-full" onClick={() => requestAction('power_failure', fa.details.powerFailure)}>
+                  {fa.details.powerFailure}
+                </Button>
+              </div>
+            </div>
             </div>
           </section>
         </div>
       </div>
+      {pendingAction && (
+        <div className="fixed inset-0 z-[2000] flex items-center justify-center bg-slate-950/45 p-4" onMouseDown={(event) => { if (event.target === event.currentTarget && !isRunning) setPendingAction(null); }}>
+          <div role="alertdialog" aria-modal="true" aria-labelledby="gateway-action-title" aria-describedby="gateway-action-description" className="w-full max-w-sm rounded-2xl border border-gray-200 bg-white p-6 shadow-2xl">
+            <h2 id="gateway-action-title" className="m-0 text-lg font-semibold text-gray-900">تأیید عملیات</h2>
+            <p id="gateway-action-description" className="mt-3 text-sm leading-7 text-gray-600">
+              آیا از انجام «{pendingAction.label}» برای {device.name} مطمئن هستید؟
+            </p>
+            <div className="mt-6 flex gap-2">
+              <Button variant="ghost" className="flex-1" disabled={isRunning} onClick={() => setPendingAction(null)}>انصراف</Button>
+              <Button className="flex-1" disabled={isRunning} onClick={() => run(pendingAction.type)}>
+                {isRunning ? 'در حال انجام...' : 'تأیید'}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

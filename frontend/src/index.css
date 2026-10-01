@@ -55,6 +55,7 @@ button:disabled {
   outline: 2px solid #0d9488;
   outline-offset: 2px;
 }
+.search-field-input:focus-visible,
 .map-search-input:focus-visible {
   outline: none;
 }
@@ -72,6 +73,23 @@ button:disabled {
   min-height: 100vh;
   padding: 6rem 1rem 6.5rem;
   background: radial-gradient(circle at 10% 0%, #e8f8f5, transparent 28rem), #f8fafc;
+}
+.device-details-page {
+  padding-top: 1.25rem;
+}
+@media (min-width: 1024px) and (min-height: 720px) {
+  .device-details-page {
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+    padding-bottom: 1rem;
+  }
+}
+.gateways-page {
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+  padding-top: 4.5rem;
 }
 @media (min-width: 768px) {
   .page-shell {

@@ -3,7 +3,6 @@ import { AlertTriangle, Battery, Clock3, PlugZap, RadioTower, Search, ShieldAler
 import { parseAsString, useQueryStates } from 'nuqs';
 import { DeviceMap } from '@/components/organisms/device-map';
 import { GatewayDetailsDrawer } from '@/components/organisms/gateway-details-drawer';
-import { GatewayAlertsPanel } from '@/components/organisms/gateway-alerts-panel';
 import { StatusBadge } from '@/components/atoms/status-badge';
 import { useDeviceStore } from '@/stores/device-store';
 import { useLiveData } from '@/hooks/use-live-data';
@@ -78,7 +77,6 @@ export function MapPage() {
         <DeviceMap devices={filtered} focusRequest={focusRequest} />
         {selectedDevice && (
           <>
-            <GatewayAlertsPanel alerts={selectedAlerts} />
             <GatewayDetailsDrawer
               device={selectedDevice}
               alerts={selectedAlerts}

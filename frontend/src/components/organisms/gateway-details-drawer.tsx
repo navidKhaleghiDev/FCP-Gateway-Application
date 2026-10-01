@@ -41,6 +41,7 @@ export function GatewayDetailsDrawer({ device, alerts, onClose }: GatewayDetails
       </div>
 
       <div className="min-h-0 flex-1 space-y-4 overflow-y-auto p-4">
+        <GatewayAlertsContent alerts={alerts} />
         <section className="rounded-xl bg-slate-50 p-3">
           <h3 className="m-0 flex items-center gap-2 text-sm font-semibold text-gray-800"><MapPin size={15} className="text-teal-600" />موقعیت درگاه</h3>
           <p className="mb-2 mt-2 text-sm text-gray-700">{device.buildingName}</p>
@@ -77,7 +78,6 @@ export function GatewayDetailsDrawer({ device, alerts, onClose }: GatewayDetails
           ) : <p className="mt-2 text-xs text-gray-500">رویداد هشداری برای این درگاه ثبت نشده است.</p>}
         </section>
 
-        <div className="xl:hidden"><GatewayAlertsContent alerts={alerts} /></div>
       </div>
 
       <div className="border-t border-gray-100 p-3">

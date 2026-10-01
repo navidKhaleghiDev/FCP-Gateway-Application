@@ -19,7 +19,7 @@ export function Providers({ children }: ProvidersProps) {
   return (
     <QueryClientProvider client={queryClient}>
       {children}
-      <Toaster position="top-center" theme="light" richColors dir="rtl" />
+      <Toaster offset={{ top: 64 }} position="top-left" theme="light" richColors dir="rtl" closeButton toastOptions={{ closeButtonAriaLabel: 'بستن اعلان' }} />
     </QueryClientProvider>
   );
 }

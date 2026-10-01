@@ -16,15 +16,16 @@ export function Topbar() {
   const alertRecord = useDeviceStore((state) => state.alerts);
   const alerts = Object.values(alertRecord).filter((alert) => !alert.resolvedAt);
   const location = useLocation();
+  const isDeviceDetails = location.pathname.startsWith('/devices/');
   const title =
     location.pathname === '/'
       ? fa.pages.map
       : location.pathname.startsWith('/devices')
         ? fa.pages.devices
-        : fa.pages.alerts;
-  if (location.pathname === '/') return null;
+        : fa.pages.map;
+  if (location.pathname === '/' || location.pathname === '/devices' || isDeviceDetails) return null;
   return (
-    <header className="pointer-events-none fixed left-3 right-3 top-3 z-[1000] flex flex-row-reverse items-center justify-between md:right-[80px]">
+    <header className="pointer-events-none fixed left-[64px] right-3 top-3 z-[1000] flex flex-row-reverse items-center justify-between md:right-[80px]">
       <div className="glass pointer-events-auto rounded-lg px-4 py-2.5 text-right">
         <p className="m-0 text-[clamp(9px,0.7vw,10px)] font-medium text-teal-600">{fa.brand}</p>
         <h1 className="m-0 text-sm font-medium text-gray-900">{title}</h1>

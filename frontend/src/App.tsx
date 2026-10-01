@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Sidebar } from '@/components/organisms/sidebar';
 import { Topbar } from '@/components/organisms/topbar';
+import { FloatingAlerts } from '@/components/organisms/floating-alerts';
 import { Loading } from '@/components/atoms/loading';
 import { fa } from '@/lib/i18n';
 import { NuqsAdapter } from 'nuqs/adapters/react-router/v7';
@@ -11,6 +12,7 @@ export function App() {
     <NuqsAdapter>
       <Sidebar />
       <Topbar />
+      <FloatingAlerts />
       <Suspense
         fallback={
           <>

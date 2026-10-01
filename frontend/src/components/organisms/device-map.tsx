@@ -80,7 +80,7 @@ function MapControls() {
   };
   return (
     <>
-      <div className={`absolute left-3 z-[900] flex flex-col gap-2 ${selectedId ? 'top-16 md:bottom-4 md:top-auto xl:left-[350px]' : 'bottom-24 md:bottom-4'}`} onDoubleClick={(event) => event.stopPropagation()}>
+      <div className={`absolute left-3 z-[900] flex flex-col gap-2 ${selectedId ? 'top-16 md:bottom-4 md:top-auto' : 'bottom-24 md:bottom-4'}`} onDoubleClick={(event) => event.stopPropagation()}>
         <IconButton label="بزرگ‌نمایی نقشه" onClick={() => map.zoomIn()} disabled={zoom >= map.getMaxZoom()}>
           <Plus size={19} aria-hidden="true" />
         </IconButton>
