@@ -21,7 +21,6 @@ interface IProps {
  * @returns {JSX.Element} A KPI card.
  */
 
-
 export function KpiCard({ label, value, icon: Icon, tone, caption }: IProps) {
   return (
     <div className="surface-panel min-w-0 p-4 text-right">
@@ -36,7 +35,9 @@ export function KpiCard({ label, value, icon: Icon, tone, caption }: IProps) {
           <Icon size={19} />
         </div>
       </div>
-      {caption && <p className="mb-0 mt-2 text-[clamp(10px,0.75vw,11px)] text-gray-400">{caption}</p>}
+      {caption && (
+        <p className="mb-0 mt-2 text-[clamp(10px,0.75vw,11px)] text-gray-400">{caption}</p>
+      )}
     </div>
   );
 }

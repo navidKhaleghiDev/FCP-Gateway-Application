@@ -19,6 +19,7 @@ import {
   Thermometer,
   TriangleAlert,
 } from 'lucide-react';
+
 import type { EventType, TelemetryPoint } from '@/types';
 import { useDeviceStore } from '@/stores/deviceStore';
 import { useLiveData } from '@/hooks/useLiveData';
@@ -30,13 +31,18 @@ import { toast } from 'sonner';
 import { eventLabel, fa, faNumber } from '@/lib/i18n';
 
 export function DeviceDetailsPage() {
+  const [isRunning, setIsRunning] = useState(false);
+  const [history, setHistory] = useState<TelemetryPoint[]>([]);
+  const [pendingAction, setPendingAction] = useState<{ type: EventType; label: string } | null>(
+    null
+  );
+
   useLiveData();
+
   const { id } = useParams();
   const nav = useNavigate();
   const device = useDeviceStore((s) => (id ? s.devices[id] : undefined));
-  const [history, setHistory] = useState<TelemetryPoint[]>([]);
-  const [pendingAction, setPendingAction] = useState<{ type: EventType; label: string } | null>(null);
-  const [isRunning, setIsRunning] = useState(false);
+
   const requestAction = (type: EventType, label: string) => setPendingAction({ type, label });
   useEffect(() => {
     if (device?.status === 'online')
@@ -52,6 +58,7 @@ export function DeviceDetailsPage() {
         ].slice(-40)
       );
   }, [device?.version]);
+
   const run = async (eventType: EventType) => {
     if (!id) return;
     setIsRunning(true);
@@ -65,15 +72,23 @@ export function DeviceDetailsPage() {
       setIsRunning(false);
     }
   };
+
   if (!device)
     return (
       <main className="grid h-screen place-items-center text-slate-400">{fa.details.notFound}</main>
     );
+
   return (
     <main className="page-shell device-details-page">
       <div className="mx-auto max-w-6xl">
         <div className="flex justify-end">
-          <Button variant="ghost" className="h-10 w-10 p-0" aria-label={fa.details.back} title={fa.details.back} onClick={() => nav(-1)}>
+          <Button
+            variant="ghost"
+            className="h-10 w-10 p-0"
+            aria-label={fa.details.back}
+            title={fa.details.back}
+            onClick={() => nav(-1)}
+          >
             <ChevronLeft size={16} />
           </Button>
         </div>
@@ -169,71 +184,123 @@ export function DeviceDetailsPage() {
             <h3 className="m-0 text-sm font-medium text-gray-900">{fa.details.operational}</h3>
             <div className="mt-5 grid gap-3 lg:grid-cols-2">
               <div className="space-y-3">
-              {[
-                [Radio, fa.details.connectivity, device.status === 'online' ? 'آنلاین' : 'آفلاین'],
-                [
-                  TriangleAlert,
-                  fa.details.technicalFault,
-                  device.hasFaults ? fa.details.detected : fa.details.clear,
-                ],
-                [
-                  Flame,
-                  fa.details.urgentAlarm,
-                  device.urgentAlarm ? fa.details.active : fa.details.clear,
-                ],
-                [
-                  PlugZap,
-                  fa.details.acSupply,
-                  device.acPower ? fa.details.available : fa.details.unavailable,
-                ],
-              ].map(([Icon, label, value]) => (
-                <div
-                  key={String(label)}
-                  className="flex items-center justify-between rounded-lg bg-gray-100 p-3"
-                >
-                  <span className="flex items-center gap-2 text-xs text-gray-500">
-                    <Icon size={15} />
-                    {label as string}
-                  </span>
-                  <strong className="text-xs font-medium text-gray-900">{value as string}</strong>
-                </div>
-              ))}
-            </div>
-            <div className="min-w-0 lg:border-r lg:border-gray-200 lg:pr-3">
-              <h4 className="mb-3 text-sm font-medium text-gray-900">عملیات درگاه</h4>
-              <div className="grid gap-2">
-                <Button variant="danger" className="w-full" onClick={() => requestAction('urgent_alarm', fa.details.testAlarm)}>
-                  <Flame size={15} />
-                  {fa.details.testAlarm}
-                </Button>
-                <Button variant="ghost" className="w-full" onClick={() => requestAction('technical_fault', fa.details.testFault)}>
-                  {fa.details.testFault}
-                </Button>
-                <Button className="w-full" onClick={() => requestAction('resolve_alarm', fa.details.resolve)}>
-                  {fa.details.resolve}
-                </Button>
-                <Button variant="ghost" className="w-full" onClick={() => requestAction(device.status === 'online' ? 'disconnect' : 'reconnect', device.status === 'online' ? fa.details.disconnect : fa.details.reconnect)}>
-                  {device.status === 'online' ? fa.details.disconnect : fa.details.reconnect}
-                </Button>
-                <Button variant="ghost" className="w-full" onClick={() => requestAction('power_failure', fa.details.powerFailure)}>
-                  {fa.details.powerFailure}
-                </Button>
+                {[
+                  [
+                    Radio,
+                    fa.details.connectivity,
+                    device.status === 'online' ? 'آنلاین' : 'آفلاین',
+                  ],
+                  [
+                    TriangleAlert,
+                    fa.details.technicalFault,
+                    device.hasFaults ? fa.details.detected : fa.details.clear,
+                  ],
+                  [
+                    Flame,
+                    fa.details.urgentAlarm,
+                    device.urgentAlarm ? fa.details.active : fa.details.clear,
+                  ],
+                  [
+                    PlugZap,
+                    fa.details.acSupply,
+                    device.acPower ? fa.details.available : fa.details.unavailable,
+                  ],
+                ].map(([Icon, label, value]) => (
+                  <div
+                    key={String(label)}
+                    className="flex items-center justify-between rounded-lg bg-gray-100 p-3"
+                  >
+                    <span className="flex items-center gap-2 text-xs text-gray-500">
+                      <Icon size={15} />
+                      {label as string}
+                    </span>
+                    <strong className="text-xs font-medium text-gray-900">{value as string}</strong>
+                  </div>
+                ))}
               </div>
-            </div>
+              <div className="min-w-0 lg:border-r lg:border-gray-200 lg:pr-3">
+                <h4 className="mb-3 text-sm font-medium text-gray-900">عملیات درگاه</h4>
+                <div className="grid gap-2">
+                  <Button
+                    variant="danger"
+                    className="w-full"
+                    onClick={() => requestAction('urgent_alarm', fa.details.testAlarm)}
+                  >
+                    <Flame size={15} />
+                    {fa.details.testAlarm}
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="w-full"
+                    onClick={() => requestAction('technical_fault', fa.details.testFault)}
+                  >
+                    {fa.details.testFault}
+                  </Button>
+                  <Button
+                    className="w-full"
+                    onClick={() => requestAction('resolve_alarm', fa.details.resolve)}
+                  >
+                    {fa.details.resolve}
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="w-full"
+                    onClick={() =>
+                      requestAction(
+                        device.status === 'online' ? 'disconnect' : 'reconnect',
+                        device.status === 'online' ? fa.details.disconnect : fa.details.reconnect
+                      )
+                    }
+                  >
+                    {device.status === 'online' ? fa.details.disconnect : fa.details.reconnect}
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="w-full"
+                    onClick={() => requestAction('power_failure', fa.details.powerFailure)}
+                  >
+                    {fa.details.powerFailure}
+                  </Button>
+                </div>
+              </div>
             </div>
           </section>
         </div>
       </div>
       {pendingAction && (
-        <div className="fixed inset-0 z-[2000] flex items-center justify-center bg-slate-950/45 p-4" onMouseDown={(event) => { if (event.target === event.currentTarget && !isRunning) setPendingAction(null); }}>
-          <div role="alertdialog" aria-modal="true" aria-labelledby="gateway-action-title" aria-describedby="gateway-action-description" className="w-full max-w-sm rounded-2xl border border-gray-200 bg-white p-6 shadow-2xl">
-            <h2 id="gateway-action-title" className="m-0 text-lg font-semibold text-gray-900">تأیید عملیات</h2>
+        <div
+          className="fixed inset-0 z-[2000] flex items-center justify-center bg-slate-950/45 p-4"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget && !isRunning) setPendingAction(null);
+          }}
+        >
+          <div
+            role="alertdialog"
+            aria-modal="true"
+            aria-labelledby="gateway-action-title"
+            aria-describedby="gateway-action-description"
+            className="w-full max-w-sm rounded-2xl border border-gray-200 bg-white p-6 shadow-2xl"
+          >
+            <h2 id="gateway-action-title" className="m-0 text-lg font-semibold text-gray-900">
+              تأیید عملیات
+            </h2>
             <p id="gateway-action-description" className="mt-3 text-sm leading-7 text-gray-600">
               آیا از انجام «{pendingAction.label}» برای {device.name} مطمئن هستید؟
             </p>
             <div className="mt-6 flex gap-2">
-              <Button variant="ghost" className="flex-1" disabled={isRunning} onClick={() => setPendingAction(null)}>انصراف</Button>
-              <Button className="flex-1" disabled={isRunning} onClick={() => run(pendingAction.type)}>
+              <Button
+                variant="ghost"
+                className="flex-1"
+                disabled={isRunning}
+                onClick={() => setPendingAction(null)}
+              >
+                انصراف
+              </Button>
+              <Button
+                className="flex-1"
+                disabled={isRunning}
+                onClick={() => run(pendingAction.type)}
+              >
                 {isRunning ? 'در حال انجام...' : 'تأیید'}
               </Button>
             </div>

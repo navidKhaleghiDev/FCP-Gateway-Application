@@ -9,6 +9,8 @@ import { useDeviceStore } from '@/stores/deviceStore';
  * @returns {{isLoading: boolean, isError: boolean, error: Error|null, refetch: Function}}
  * Query state and a function for retrying the device request.
  */
+
+// TODO : Update the js doc for this Hook
 export function useLiveData() {
   const {
     hydrate,

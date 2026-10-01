@@ -10,6 +10,7 @@ type UrlState = Record<string, string>;
  * @param {T} defaults - Fallback values used when a query parameter is missing.
  * @returns {[T, (updates: Partial<T>) => void]} Current parsed state and an updater.
  */
+
 export function useUrlState<T extends UrlState>(defaults: T) {
   const [searchParams, setSearchParams] = useSearchParams();
   const state = Object.fromEntries(
