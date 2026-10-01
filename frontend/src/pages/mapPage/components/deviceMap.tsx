@@ -1,11 +1,13 @@
+import type { ReactNode } from 'react';
 import { useMemo } from 'react';
 import { Circle, MapContainer, Marker, TileLayer } from 'react-leaflet';
 import L from 'leaflet';
 import { CircleCheck, TriangleAlert, WifiOff, Wrench } from 'lucide-react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import type { Device } from '@/types';
+import type { MapSearchProps } from '@/components/molecules/mapSearch';
 import { useDeviceStore } from '@/stores/deviceStore';
-import './deviceMap.css';
+import '@/components/organisms/deviceMap.css';
 import { FocusSelectedDevice } from './FocusSelectedDevice';
 import { MapControls } from './MapControls';
 
@@ -47,9 +49,11 @@ const marker = (d: Device) => {
 interface Props {
   devices: Device[];
   focusRequest?: number;
+  search: MapSearchProps;
+  filters: ReactNode;
 }
 
-export function DeviceMap({ devices, focusRequest = 0 }: Props) {
+export function DeviceMap({ devices, focusRequest = 0, search, filters }: Props) {
   const selectedId = useDeviceStore((s) => s.selectedId);
   const select = useDeviceStore((s) => s.select);
   const selected = devices.find((d) => d.id === selectedId);
@@ -57,7 +61,7 @@ export function DeviceMap({ devices, focusRequest = 0 }: Props) {
   return (
     <MapContainer center={[35.7219, 51.3347]} zoom={12} zoomControl={false} className="z-0">
       <FocusSelectedDevice device={selected} focusRequest={focusRequest} />
-      <MapControls />
+      <MapControls search={search} filters={filters} />
       <TileLayer
         attribution="&copy; OpenStreetMap contributors"
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

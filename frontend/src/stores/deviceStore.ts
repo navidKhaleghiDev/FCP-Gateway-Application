@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import type { DeviceState } from '@/types';
 
-
 /** Stores live devices, connection state, and alert panel state. */
 export const useDeviceStore = create<DeviceState>((set) => ({
   devices: {},
@@ -10,6 +9,7 @@ export const useDeviceStore = create<DeviceState>((set) => ({
   alertsOpenSession: 0,
   connection: 'connecting',
   selectedId: null,
+
   /** Merges REST results without replacing newer WebSocket versions. */
   hydrate: (devices) =>
     set((state) => {
@@ -29,13 +29,16 @@ export const useDeviceStore = create<DeviceState>((set) => ({
       return { devices: { ...s.devices, [incoming.id]: incoming } };
     }),
   /** Keeps the newest alert for the global indicator. */
-  setLatestAlert: (alert) => set((state) => {
-    if (state.latestAlert?.id === alert.id) return { latestAlert: alert };
-    if (!state.latestAlert || alert.timestamp >= state.latestAlert.timestamp) return { latestAlert: alert };
-    return state;
-  }),
+  setLatestAlert: (alert) =>
+    set((state) => {
+      if (state.latestAlert?.id === alert.id) return { latestAlert: alert };
+      if (!state.latestAlert || alert.timestamp >= state.latestAlert.timestamp)
+        return { latestAlert: alert };
+      return state;
+    }),
   /** Opens the alert panel and starts a fresh query session. */
-  openAlerts: () => set((state) => ({ alertsOpen: true, alertsOpenSession: state.alertsOpenSession + 1 })),
+  openAlerts: () =>
+    set((state) => ({ alertsOpen: true, alertsOpenSession: state.alertsOpenSession + 1 })),
   /** Closes the alert panel. */
   closeAlerts: () => set({ alertsOpen: false }),
   /** Updates the connection indicator. */
@@ -43,6 +46,5 @@ export const useDeviceStore = create<DeviceState>((set) => ({
   /** Selects a map device, including from a toast callback. */
   select: (selectedId) => set({ selectedId }),
 }));
-
 
 export const selectDevices = (s: DeviceState) => Object.values(s.devices);

@@ -1,3 +1,4 @@
+import L from 'leaflet';
 import { Device } from '@/types';
 import { useEffect } from 'react';
 import { useMap } from 'react-leaflet';

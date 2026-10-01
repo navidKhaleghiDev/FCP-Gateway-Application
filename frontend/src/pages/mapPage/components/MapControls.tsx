@@ -1,16 +1,20 @@
-import { IconButton } from '@/components/atoms/iconButton';
-import { useDeviceStore } from '@/stores/deviceStore';
-import { Crosshair, LoaderCircle, Minus, Plus } from 'lucide-react';
+import type { ReactNode } from 'react';
 import { useState } from 'react';
 import { CircleMarker, Popup, useMap, useMapEvents } from 'react-leaflet';
 import { toast } from 'sonner';
+import { Crosshair, LoaderCircle, Minus, Plus } from 'lucide-react';
 
-export function MapControls() {
+import { IconButton } from '@/components/atoms/iconButton';
+import { useDeviceStore } from '@/stores/deviceStore';
+import { MapSearch, type MapSearchProps } from '@/components/molecules/mapSearch';
+
+export function MapControls({ search, filters }: { search: MapSearchProps; filters: ReactNode }) {
   const map = useMap();
-  const selectedId = useDeviceStore((state) => state.selectedId);
-  const [zoom, setZoom] = useState(map.getZoom());
+  const [zoom, setZoom] = useState(() => map.getZoom());
   const [locating, setLocating] = useState(false);
   const [location, setLocation] = useState<[number, number] | null>(null);
+
+  const selectedId = useDeviceStore((state) => state.selectedId);
   useMapEvents({ zoomend: () => setZoom(map.getZoom()) });
   const locate = () => {
     if (!navigator.geolocation) {
@@ -36,10 +40,19 @@ export function MapControls() {
       { enableHighAccuracy: true, timeout: 12000, maximumAge: 30000 }
     );
   };
+
   return (
     <>
       <div
-        className={`absolute left-3 z-[900] flex flex-col gap-2 ${selectedId ? 'top-16 md:bottom-4 md:top-auto' : 'bottom-24 md:bottom-4'}`}
+        className="fixed left-3 right-3 top-3 z-900 flex items-start gap-2 md:right-20"
+        dir="rtl"
+        onDoubleClick={(event) => event.stopPropagation()}
+      >
+        <MapSearch {...search} />
+        {filters}
+      </div>
+      <div
+        className={`absolute left-3 z-900 flex flex-col gap-2 ${selectedId ? 'top-16 md:bottom-4 md:top-auto' : 'bottom-24 md:bottom-4'}`}
         onDoubleClick={(event) => event.stopPropagation()}
       >
         <IconButton

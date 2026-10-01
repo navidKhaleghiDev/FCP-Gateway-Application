@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+
 import { useGetDevices } from '@/services/api';
 import { useDeviceStore } from '@/stores/deviceStore';
 
@@ -9,16 +10,26 @@ import { useDeviceStore } from '@/stores/deviceStore';
  * Query state and a function for retrying the device request.
  */
 export function useLiveData() {
-  const hydrate = useDeviceStore((s) => s.hydrate);
-  const devices = useGetDevices();
+  const {
+    hydrate,
+    devices: deviceRecord,
+    select: selectDevice,
+    selectedId,
+  } = useDeviceStore((s) => s);
+  const { data, isLoading, refetch, isError, error } = useGetDevices();
+
   useEffect(() => {
-    if (devices.data) hydrate(devices.data.data);
-  }, [devices.data, hydrate]);
+    if (data) hydrate(data.data);
+  }, [data, hydrate]);
+
   return {
-    data: devices.data,
-    isLoading: devices.isLoading,
-    isError: devices.isError,
-    error: devices.error,
-    refetch: devices.refetch,
+    data,
+    isLoading,
+    deviceRecord,
+    selectDevice,
+    selectedId,
+    isError,
+    error,
+    refetch,
   };
 }
