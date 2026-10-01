@@ -7,7 +7,14 @@ interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   badge?: number;
 }
 
-export function IconButton({ label, children, badge, className, type = 'button', ...props }: IconButtonProps) {
+export function IconButton({
+  label,
+  children,
+  badge,
+  className,
+  type = 'button',
+  ...props
+}: IconButtonProps) {
   return (
     <button
       type={type}
@@ -20,7 +27,14 @@ export function IconButton({ label, children, badge, className, type = 'button',
       {...props}
     >
       {children}
-      {badge !== undefined && badge > 0 && <span aria-hidden="true" className="absolute -right-1 -top-1 grid min-w-4 place-items-center rounded-full bg-red-500 px-1 text-[10px] leading-4 text-white">{badge}</span>}
+      {badge !== undefined && badge > 0 && (
+        <span
+          aria-hidden="true"
+          className="absolute -right-1 -top-1 grid min-w-4 place-items-center rounded-full bg-red-500 px-1 text-[10px] leading-4 text-white"
+        >
+          {badge}
+        </span>
+      )}
     </button>
   );
 }

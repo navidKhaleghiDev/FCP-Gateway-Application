@@ -19,14 +19,14 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.DEVICES,
         lazy: async () => {
-          const { DevicesPage } = await import('@/pages/devicesPage');
+          const { DevicesPage } = await import('@/pages/devicePage');
           return { Component: DevicesPage };
         },
       },
       {
         path: ROUTES.DEVICE_DETAILS,
         lazy: async () => {
-          const { DeviceDetailsPage } = await import('@/pages/deviceDetailsPage');
+          const { DeviceDetailsPage } = await import('@/pages/deviceDetailPage');
           return { Component: DeviceDetailsPage };
         },
       },

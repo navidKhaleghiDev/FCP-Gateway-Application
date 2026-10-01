@@ -57,8 +57,7 @@ button:disabled {
   outline: 2px solid #0d9488;
   outline-offset: 2px;
 }
-.search-field-input:focus-visible,
-.map-search-input:focus-visible {
+.search-field-input:focus-visible {
   outline: none;
 }
 ::selection {
