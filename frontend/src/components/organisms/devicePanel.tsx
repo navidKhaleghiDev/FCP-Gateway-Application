@@ -1,9 +1,9 @@
 import { Battery, ChevronRight, Radio, Search, Signal, TriangleAlert, X } from 'lucide-react';
 import type { Device } from '@/types';
-import { SearchField } from '@/components/molecules/search-field';
-import { StatusBadge } from '@/components/atoms/status-badge';
+import { SearchField } from '@/components/molecules/searchField';
+import { StatusBadge } from '@/components/atoms/statusBadge';
 import { relativeTime, cn } from '@/lib/utils';
-import { useDeviceStore } from '@/stores/device-store';
+import { useDeviceStore } from '@/stores/deviceStore';
 import { fa, faNumber } from '@/lib/i18n';
 
 interface IProps {

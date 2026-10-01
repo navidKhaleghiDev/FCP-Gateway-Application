@@ -6,7 +6,6 @@ import type {
   EventType,
   ServerEvent,
 } from "./types.js";
-import type { Server } from "socket.io";
 
 const clamp = (n: number, min: number, max: number) =>
   Math.min(max, Math.max(min, n));
@@ -21,7 +20,7 @@ export class Simulator {
   private alertSequence = 1000;
 
   constructor(
-    private io?: Server,
+    private broadcast?: (message: ServerEvent) => void,
     count = 120,
   ) {
     const center = { lat: 35.7219, lng: 51.3347 };
@@ -48,8 +47,8 @@ export class Simulator {
     }
   }
 
-  setIo(io: Server) {
-    this.io = io;
+  setBroadcaster(broadcast: (message: ServerEvent) => void) {
+    this.broadcast = broadcast;
   }
   list() {
     return [...this.devices.values()];
@@ -69,7 +68,9 @@ export class Simulator {
       online: all.filter((d) => d.status === "online").length,
       offline: all.filter((d) => d.status === "offline").length,
       urgent: all.filter((d) => d.urgentAlarm).length,
-      faults: all.filter((d) => d.hasFaults).length,
+      faults: all.filter((d) => d.hasFaults || !d.acPower).length,
+      warnings: all.filter((d) => d.priority === "warning" || d.urgentAlarm).length,
+      errors: all.filter((d) => d.hasFaults || !d.acPower).length,
     };
   }
 
@@ -89,7 +90,7 @@ export class Simulator {
     );
   }
   private emit(event: ServerEvent["event"], data: Device | Alert) {
-    this.io?.emit(event, data);
+    this.broadcast?.({ event, data } as ServerEvent);
   }
 
   private tick() {

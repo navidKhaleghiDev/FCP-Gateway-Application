@@ -1,9 +1,11 @@
 @import 'tailwindcss';
 @import 'leaflet/dist/leaflet.css';
 
+
+/* Local Persian fonts keep the dashboard usable offline. */
 @font-face {
   font-family: Kalameh;
-  src: url('./assets/fonts/KalamehWeb-Regular.woff') format('woff');
+  src: url('./assets/fonts/KalamehWebRegular.woff') format('woff');
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -11,7 +13,7 @@
 
 @font-face {
   font-family: Kalameh;
-  src: url('./assets/fonts/KalamehWeb-SemiBold.woff') format('woff');
+  src: url('./assets/fonts/KalamehWebSemiBold.woff') format('woff');
   font-style: normal;
   font-weight: 500 900;
   font-display: swap;
@@ -69,6 +71,7 @@ button:disabled {
   border: 1px solid #e5e7eb;
   box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
 }
+/* The gradient adds depth while padding clears fixed navigation. */
 .page-shell {
   min-height: 100vh;
   padding: 6rem 1rem 6.5rem;
@@ -77,6 +80,7 @@ button:disabled {
 .device-details-page {
   padding-top: 1.25rem;
 }
+/* Keep details within tall desktop viewports without a page scrollbar. */
 @media (min-width: 1024px) and (min-height: 720px) {
   .device-details-page {
     height: 100dvh;
@@ -85,6 +89,7 @@ button:disabled {
     padding-bottom: 1rem;
   }
 }
+/* The table owns scrolling so header and pagination remain visible. */
 .gateways-page {
   height: 100dvh;
   min-height: 0;
@@ -103,6 +108,7 @@ button:disabled {
   background: #fff;
   box-shadow: 0 8px 30px rgba(15, 23, 42, 0.045);
 }
+/* Leaflet defaults do not fill the application map panel. */
 .leaflet-container {
   width: 100%;
   height: 100%;
@@ -120,6 +126,7 @@ button:disabled {
   color: #374151 !important;
   border-color: #e5e7eb !important;
 }
+/* Align nested map and table scrollbars across browsers. */
 * {
   scrollbar-width: thin;
   scrollbar-color: #b7c9cb transparent;

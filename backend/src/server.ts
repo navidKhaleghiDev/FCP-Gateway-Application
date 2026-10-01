@@ -1,5 +1,5 @@
 import { createServer } from "node:http";
-import { Server } from "socket.io";
+import { WebSocket, WebSocketServer } from "ws";
 import { createApp } from "./app.js";
 import { config } from "./config.js";
 import { initializeDatabase, closeDatabase } from "./db.js";
@@ -8,15 +8,24 @@ import { Simulator } from "./simulator.js";
 const simulator = new Simulator();
 const app = createApp(simulator, config.clientUrl);
 const httpServer = createServer(app);
-const io = new Server(httpServer, { cors: { origin: config.clientUrl, credentials: false } });
-simulator.setIo(io);
-io.on("connection", socket => socket.emit("sync:ready", { timestamp: new Date().toISOString() }));
+const wsServer = new WebSocketServer({
+  server: httpServer,
+  path: "/ws",
+  verifyClient: ({ origin }: { origin: string }) => !origin || origin === config.clientUrl,
+});
+simulator.setBroadcaster((message) => {
+  const payload = JSON.stringify(message);
+  for (const client of wsServer.clients) {
+    if (client.readyState === WebSocket.OPEN) client.send(payload);
+  }
+});
 await initializeDatabase(simulator.list()).catch(error => console.warn("PostgreSQL unavailable; continuing with in-memory simulation.", error.message));
 simulator.start();
 const shutdown = async (signal: string) => {
   console.log(`${signal} received; shutting down gracefully`);
   simulator.stop();
-  io.close();
+  for (const client of wsServer.clients) client.terminate();
+  await new Promise<void>((resolve) => wsServer.close(() => resolve()));
   await closeDatabase();
   await new Promise<void>((resolve, reject) => httpServer.close((error) => error ? reject(error) : resolve()));
   process.exit(0);

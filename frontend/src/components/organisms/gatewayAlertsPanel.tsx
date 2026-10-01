@@ -1,6 +1,6 @@
 import { AlertTriangle } from 'lucide-react';
 import type { Alert } from '@/types';
-import { StatusBadge } from '@/components/atoms/status-badge';
+import { StatusBadge } from '@/components/atoms/statusBadge';
 import { eventLabel, fa, faNumber } from '@/lib/i18n';
 import { relativeTime } from '@/lib/utils';
 

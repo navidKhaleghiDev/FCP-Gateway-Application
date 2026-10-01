@@ -1,8 +1,8 @@
 import { Eye } from 'lucide-react';
 import type { Device } from '@/types';
 import { Button } from '@/components/atoms/button';
-import { StatusBadge } from '@/components/atoms/status-badge';
-import { DataTable, type DataTableColumn } from '@/components/organisms/data-table';
+import { StatusBadge } from '@/components/atoms/statusBadge';
+import { DataTable, type DataTableColumn } from '@/components/organisms/dataTable';
 import { fa, faNumber } from '@/lib/i18n';
 
 interface DeviceTableProps {

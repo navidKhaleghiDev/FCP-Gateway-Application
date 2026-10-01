@@ -1,31 +1,27 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useGetAlerts, useGetDevices, type DeviceListParams } from '@/services/api';
+import { useDebounce } from '@/hooks/useDebounce';
+import { APP_CONFIG } from '@/config/app';
 import { AlertTriangle, Battery, Clock3, PlugZap, RadioTower, Search, ShieldAlert, Signal, Thermometer, Wifi, X } from 'lucide-react';
 import { parseAsString, useQueryStates } from 'nuqs';
-import { DeviceMap } from '@/components/organisms/device-map';
-import { GatewayDetailsDrawer } from '@/components/organisms/gateway-details-drawer';
-import { StatusBadge } from '@/components/atoms/status-badge';
-import { useDeviceStore } from '@/stores/device-store';
-import { useLiveData } from '@/hooks/use-live-data';
-import { LoadingWrapper } from '@/components/molecules/loading-wrapper';
+import { DeviceMap } from '@/components/organisms/deviceMap';
+import { GatewayDetailsDrawer } from '@/components/organisms/gatewayDetailsDrawer';
+import { StatusBadge } from '@/components/atoms/statusBadge';
+import { useDeviceStore } from '@/stores/deviceStore';
+import { useLiveData } from '@/hooks/useLiveData';
+import { LoadingWrapper } from '@/components/molecules/loadingWrapper';
 import { fa, faNumber } from '@/lib/i18n';
 import { cn, relativeTime } from '@/lib/utils';
 
 const MAP_FILTER_DEFAULTS = { search: '', filter: 'all' };
 
 export function MapPage() {
-  const { isLoading, isError, refetch } = useLiveData();
+  const { data: liveDevices, isLoading, isError, refetch } = useLiveData();
   const deviceRecord = useDeviceStore((state) => state.devices);
-  const alertRecord = useDeviceStore((state) => state.alerts);
-  const devices = useMemo(() => Object.values(deviceRecord), [deviceRecord]);
   const selectDevice = useDeviceStore((state) => state.select);
   const selectedId = useDeviceStore((state) => state.selectedId);
   const selectedDevice = selectedId ? deviceRecord[selectedId] : undefined;
-  const selectedAlerts = useMemo(
-    () => Object.values(alertRecord)
-      .filter((alert) => alert.deviceId === selectedId)
-      .sort((a, b) => b.timestamp.localeCompare(a.timestamp)),
-    [alertRecord, selectedId]
-  );
+  const { data: selectedAlerts = [] } = useGetAlerts({ deviceId: selectedId ?? '' }, { enabled: !!selectedId });
   const [focusRequest, setFocusRequest] = useState(0);
   const [searchOpen, setSearchOpen] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
@@ -43,26 +39,19 @@ export function MapPage() {
     },
     { history: 'replace', clearOnDefault: true }
   );
-  const filtered = useMemo(() => {
-    const q = search.toLowerCase();
-    return devices.filter(
-      (d) =>
-        (filter === 'all' ||
-          (filter === 'online' && d.status === 'online') ||
-          (filter === 'urgent' && d.urgentAlarm) ||
-          (filter === 'faults' && (d.hasFaults || !d.acPower)) ||
-          (filter === 'attention' && (d.priority !== 'normal' || d.hasFaults || !d.acPower))) &&
-        (!q ||
-          d.name.toLowerCase().includes(q) ||
-          d.id.toLowerCase().includes(q) ||
-          d.buildingName.toLowerCase().includes(q))
-    );
-  }, [devices, filter, search]);
+  const debouncedSearch = useDebounce(search, APP_CONFIG.searchDebounceMs);
+  const selectedFilter: DeviceListParams['filter'] =
+    ['all', 'online', 'urgent', 'faults', 'attention'].includes(filter)
+      ? filter as DeviceListParams['filter'] : 'all';
+  const hasActiveFilter = !!debouncedSearch.trim() || selectedFilter !== 'all';
+  const { data: filteredResult } = useGetDevices({ search: debouncedSearch, filter: selectedFilter }, { enabled: hasActiveFilter });
+  const filtered = hasActiveFilter ? filteredResult?.data ?? [] : liveDevices?.data ?? [];
+  const summary = liveDevices?.meta.summary;
   const stats = {
-    total: devices.length,
-    online: devices.filter((d) => d.status === 'online').length,
-    urgent: devices.filter((d) => d.urgentAlarm).length,
-    faults: devices.filter((d) => d.hasFaults || !d.acPower).length,
+    total: summary?.total ?? 0,
+    online: summary?.online ?? 0,
+    urgent: summary?.urgent ?? 0,
+    faults: summary?.faults ?? 0,
   };
   const badges = [
     { key: 'all', label: fa.kpi.total, value: stats.total, icon: RadioTower, color: 'text-teal-600' },

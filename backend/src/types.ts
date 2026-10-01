@@ -18,6 +18,7 @@ export interface Alert {
 
 export interface DashboardSummary {
   total: number; online: number; offline: number; urgent: number; faults: number;
+  warnings: number; errors: number;
 }
 
 export interface TelemetryPoint { timestamp: string; temperature: number; battery: number; signalStrength: number }

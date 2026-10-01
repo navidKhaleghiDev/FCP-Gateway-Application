@@ -5,9 +5,9 @@ import { CircleCheck, Crosshair, LoaderCircle, Minus, Plus, TriangleAlert, WifiO
 import { renderToStaticMarkup } from 'react-dom/server';
 import { toast } from 'sonner';
 import type { Device } from '@/types';
-import { IconButton } from '@/components/atoms/icon-button';
-import { useDeviceStore } from '@/stores/device-store';
-import './device-map.css';
+import { IconButton } from '@/components/atoms/iconButton';
+import { useDeviceStore } from '@/stores/deviceStore';
+import './deviceMap.css';
 const marker = (d: Device) => {
   const state = d.status === 'offline'
     ? 'offline'

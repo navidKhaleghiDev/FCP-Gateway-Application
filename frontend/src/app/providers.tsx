@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'sonner';
-import { queryClient } from '@/services/query-client';
+import { queryClient } from '@/services/queryClient';
+import { AlertsProvider } from '@/app/alertsContext';
 
 interface ProvidersProps {
   children: ReactNode;
@@ -18,7 +19,7 @@ interface ProvidersProps {
 export function Providers({ children }: ProvidersProps) {
   return (
     <QueryClientProvider client={queryClient}>
-      {children}
+      <AlertsProvider>{children}</AlertsProvider>
       <Toaster offset={{ top: 64 }} position="top-left" theme="light" richColors dir="rtl" closeButton toastOptions={{ closeButtonAriaLabel: 'بستن اعلان' }} />
     </QueryClientProvider>
   );

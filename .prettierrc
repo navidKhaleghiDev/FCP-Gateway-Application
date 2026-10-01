@@ -7,16 +7,5 @@
   "printWidth": 100,
   "bracketSpacing": true,
   "jsxSingleQuote": false,
-  "jsxBracketSameLine": false,
-  "semi": true,
-  "importOrder": [
-    "^react$",
-    "^next",
-    "<THIRD_PARTY_MODULES>",
-    "^@/components/(.*)$",
-    "^@/utils/(.*)$",
-    "^[./]"
-  ],
-  "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true
+  "semi": true
 }

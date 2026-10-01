@@ -20,10 +20,10 @@ import {
   TriangleAlert,
 } from 'lucide-react';
 import type { EventType, TelemetryPoint } from '@/types';
-import { useDeviceStore } from '@/stores/device-store';
-import { useLiveData } from '@/hooks/use-live-data';
+import { useDeviceStore } from '@/stores/deviceStore';
+import { useLiveData } from '@/hooks/useLiveData';
 import { Metric } from '@/components/atoms/metric';
-import { StatusBadge } from '@/components/atoms/status-badge';
+import { StatusBadge } from '@/components/atoms/statusBadge';
 import { Button } from '@/components/atoms/button';
 import { deviceApi } from '@/services/api';
 import { toast } from 'sonner';

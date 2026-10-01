@@ -1,5 +1,5 @@
 import type { DevicePriority, DeviceStatus } from '@/types';
-import faJson from '@/locales/fa-correct.json';
+import faJson from '@/locales/faCorrect.json';
 
 const legacyFaShape = {
   brand: 'مرکز پایش هوشمند',
@@ -93,6 +93,8 @@ const legacyFaShape = {
     inspect: 'بررسی درگاه',
     opened: 'ثبت‌شده',
     resolved: 'رفع‌شده',
+    close: 'بستن هشدارها',
+    activeCount: 'هشدار فعال',
   },
   status: { online: '', offline: '', normal: '', warning: '', urgent: '' },
   events: {

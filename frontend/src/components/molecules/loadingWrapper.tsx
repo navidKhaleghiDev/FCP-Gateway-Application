@@ -10,6 +10,7 @@ interface LoadingWrapperProps {
   isError?: boolean;
   onRetry?: () => void;
   loadingLabel?: string;
+  compact?: boolean;
 }
 
 /**
@@ -32,10 +33,11 @@ export function LoadingWrapper({
   isError = false,
   onRetry,
   loadingLabel = fa.map.loading,
+  compact = false,
 }: LoadingWrapperProps) {
   if (isError) {
     return (
-      <div className="grid min-h-screen place-items-center">
+      <div className={compact ? "grid min-h-32 place-items-center" : "grid min-h-screen place-items-center"}>
         <div className="text-center">
           <AlertTriangle className="mx-auto mb-3 text-red-500" />
           <h2>{fa.map.loadError}</h2>
@@ -46,7 +48,7 @@ export function LoadingWrapper({
   }
 
   if (isLoading) {
-    return <Loading className="min-h-screen bg-gray-50" label={loadingLabel} />;
+    return <Loading className={compact ? "min-h-32" : "min-h-screen bg-gray-50"} label={loadingLabel} />;
   }
 
   return children;

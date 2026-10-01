@@ -16,16 +16,18 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
     project: './tsconfig.json',
+    tsconfigRootDir: __dirname,
   },
   plugins: ['react', '@typescript-eslint', 'prettier'],
   settings: {
     react: { version: 'detect' },
     'import/resolver': {
-      typescript: { project: './tsconfig.json' },
+      typescript: { project: require('path').join(__dirname, 'tsconfig.json') },
     },
   },
   rules: {
     'no-console': 'error',
+    'no-nested-ternary': 'off',
     'react/jsx-props-no-spreading': 'off',
     'prettier/prettier': ['error', { endOfLine: 'auto' }],
     'react/react-in-jsx-scope': 'off',

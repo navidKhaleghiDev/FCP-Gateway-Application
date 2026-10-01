@@ -1,2 +1,2 @@
 /** Device feature API boundary. */
-export { deviceApi, deviceQueryOptions } from '@/services/api';
+export { deviceApi } from '@/services/api';

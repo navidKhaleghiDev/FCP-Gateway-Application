@@ -1,6 +1,6 @@
 # Sentinel IoT Operations Dashboard
 
-A map-first operations dashboard for monitoring simulated fire-panel gateways. Phase one includes 120 live gateways, real-time alarms and telemetry, resilient Socket.IO synchronization, an operator fleet table, alert center, device detail charts, and PostgreSQL-backed gateway identity persistence.
+A map-first operations dashboard for monitoring simulated fire-panel gateways. Phase one includes 120 live gateways, real-time alarms and telemetry, resilient WebSocket synchronization, an operator fleet table, alert center, device detail charts, and PostgreSQL-backed gateway identity persistence.
 
 ## Quick start for development (recommended)
 
@@ -76,21 +76,21 @@ docker compose logs backend frontend postgres
 | `CLIENT_URL` | `http://localhost:5173` | Allowed browser origin |
 | `DATABASE_URL` | optional | PostgreSQL connection string |
 | `VITE_API_URL` | `http://localhost:4000` | Browser REST origin |
-| `VITE_SOCKET_URL` | `http://localhost:4000` | Browser Socket.IO origin |
+| `VITE_SOCKET_URL` | `http://localhost:4000` | Browser WebSocket origin (the app uses /ws) |
 
 ## Stack
 
 - Frontend: React 19, TypeScript, Vite, TanStack Query, Zustand, Axios, React Router, Tailwind CSS, Leaflet, Recharts and Sonner
-- Backend: Node.js, TypeScript, Express 5, Socket.IO and PostgreSQL
+- Backend: Node.js, TypeScript, Express 5, ws and PostgreSQL
 - Contracts: `frontend/src/types.ts` and `backend/src/types.ts` define each project's API and socket payload types
 
 ## API
 
 - `GET /api/health`
-- `GET /api/devices`
+- `GET /api/devices` (optional `search`, `filter`, `status`, `priority`; returns `{ data: Device[], meta: { summary } }`)
 - `GET /api/devices/:id`
 - `GET /api/dashboard/summary`
-- `GET /api/alerts`
+- `GET /api/alerts` (optional `search`, `deviceId`, `status`, `kind`, `priority`)
 - `POST /api/devices/:id/simulate`
 
 The simulation request body accepts:
@@ -101,18 +101,22 @@ The simulation request body accepts:
 
 Supported event types are `urgent_alarm`, `technical_fault`, `power_failure`, `disconnect`, `reconnect` and `resolve_alarm`.
 
-Socket events are `device:updated`, `device:disconnected`, `device:connected`, `alert:created` and `alert:resolved`. Device payloads carry monotonically increasing version values. The client rejects older versions and performs an authoritative REST synchronization after every socket connection.
+Device `filter` accepts `all`, `online`, `urgent`, `faults` and `attention`. Device `status` accepts `all`, `online` and `offline`; device `priority` accepts `all`, `normal`, `warning` and `urgent`. Alert `status` accepts `all`, `active` and `resolved`; `kind` accepts `all`, `urgent_alarm`, `technical_fault` and `power_failure`; alert `priority` accepts `all`, `warning` and `urgent`. Invalid filter values return HTTP 400.
+
+The alert icon requests `GET /api/alerts` when opened; alert history is not preloaded. The WebSocket only keeps the latest warning or urgent alert for the live indicator and toast.
+
+The native WebSocket endpoint is `/ws`. Events are `device:updated`, `device:disconnected`, `device:connected`, `alert:created` and `alert:resolved`, sent as JSON `{ "event": "...", "data": { ... } }`. Device payloads carry monotonically increasing version values. The client rejects older versions and refetches REST queries after reconnection.
 
 ## Architecture
 
 - `frontend/src/components`: atomic-design layers (`atoms`, `molecules`, `organisms`)
 - `frontend/src/pages`: route-level composition
-- `frontend/src/services`: singleton socket lifecycle
+- `frontend/src/services`: application-wide WebSocket hook
 - `frontend/src/stores`: ordering-safe live state
 - `backend/src/simulator.ts`: authoritative runtime state and realistic telemetry
 - `frontend/src/types.ts`, `backend/src/types.ts`: local API and socket contracts
 
-The simulator updates a subset of online devices every 1-3 seconds. Offline gateways do not emit ordinary telemetry. Live updates do not reset search, filters or pagination.
+The simulator updates a subset of online devices every 1-3 seconds. Offline gateways do not emit ordinary telemetry. Routine telemetry updates stay in local state. Gateway status, fault, power, priority and alarm changes invalidate active device queries, whose responses include updated summary metadata; alert events invalidate active alert views. Live updates do not reset search, filters or pagination.
 
 ## Troubleshooting
 

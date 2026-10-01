@@ -1,7 +1,7 @@
 import { LoaderCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-interface LoadingProps {
+interface Props {
   label?: string;
   className?: string;
 }
@@ -15,7 +15,8 @@ interface LoadingProps {
  * @param {string} [props.className] - Additional utility classes.
  * @returns {JSX.Element} A live loading status element.
  */
-export function Loading({ label, className }: LoadingProps) {
+
+export function Loading({ label, className }: Props) {
   return (
     <div
       className={cn('grid place-items-center text-sm text-teal-600', className)}
@@ -24,7 +25,7 @@ export function Loading({ label, className }: LoadingProps) {
     >
       <span className="flex items-center gap-2">
         <LoaderCircle className="animate-spin" size={20} aria-hidden="true" />
-        {label}
+        {label ?? ''}
       </span>
     </div>
   );

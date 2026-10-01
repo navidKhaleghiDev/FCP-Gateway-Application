@@ -12,29 +12,28 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.HOME,
         lazy: async () => {
-          const { MapPage } = await import('@/pages/map-page');
+          const { MapPage } = await import('@/pages/mapPage');
           return { Component: MapPage };
         },
       },
       {
         path: ROUTES.DEVICES,
         lazy: async () => {
-          const { DevicesPage } = await import('@/pages/devices-page');
+          const { DevicesPage } = await import('@/pages/devicesPage');
           return { Component: DevicesPage };
         },
       },
       {
         path: ROUTES.DEVICE_DETAILS,
         lazy: async () => {
-          const { DeviceDetailsPage } = await import('@/pages/device-details-page');
+          const { DeviceDetailsPage } = await import('@/pages/deviceDetailsPage');
           return { Component: DeviceDetailsPage };
-        
         },
       },
       {
         path: '*',
         lazy: async () => {
-          const { NotFoundPage } = await import('@/pages/not-found-page');
+          const { NotFoundPage } = await import('@/pages/notFoundPage');
           return { Component: NotFoundPage };
         },
       },

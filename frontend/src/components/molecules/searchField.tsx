@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Search, X } from 'lucide-react';
 import { fa } from '@/lib/i18n';
 import { APP_CONFIG } from '@/config/app';
-import { useDebounce } from '@/hooks/use-debounce';
+import { useDebounce } from '@/hooks/useDebounce';
 
 interface IProps {
   value: string;

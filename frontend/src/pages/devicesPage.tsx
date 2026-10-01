@@ -1,12 +1,11 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { CircleX, RadioTower, Search, TriangleAlert, Wifi } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useDeviceStore } from '@/stores/device-store';
-import { useLiveData } from '@/hooks/use-live-data';
-import { SearchField } from '@/components/molecules/search-field';
-import { KpiCard } from '@/components/molecules/kpi-card';
+import { useGetDevices } from '@/services/api';
+import { SearchField } from '@/components/molecules/searchField';
+import { KpiCard } from '@/components/molecules/kpiCard';
 import { Pagination } from '@/components/molecules/pagination';
-import { DeviceTable } from '@/components/organisms/device-table';
+import { DeviceTable } from '@/components/organisms/deviceTable';
 
 
 import { fa, faNumber } from '@/lib/i18n';
@@ -15,15 +14,6 @@ import { deviceDetailsPath } from '@/routes/paths';
 import { parseAsInteger, parseAsString, useQueryStates } from 'nuqs';
 
 export function DevicesPage() {
-  useLiveData();
-  const deviceRecord = useDeviceStore((state) => state.devices);
-  const devices = useMemo(() => Object.values(deviceRecord), [deviceRecord]);
-  const summary = useMemo(() => ({
-    total: devices.length,
-    active: devices.filter((device) => device.status === 'online').length,
-    warnings: devices.filter((device) => device.priority === 'warning' || device.urgentAlarm).length,
-    errors: devices.filter((device) => device.hasFaults || !device.acPower).length,
-  }), [devices]);
   const nav = useNavigate();
 
   const [{ query, page }, setUrlState] = useQueryStates(
@@ -33,17 +23,9 @@ export function DevicesPage() {
     },
     { history: 'replace', clearOnDefault: true }
   );
-  const rows = useMemo(
-    () =>
-      devices
-        .filter(
-          (d) =>
-            !query || `${d.name} ${d.id} ${d.buildingName}`.toLowerCase().includes(query.toLowerCase())
-        )
-        .sort((a, b) => b.lastSeen.localeCompare(a.lastSeen)),
-    [devices, query]
-  );
-
+  const { data: result } = useGetDevices({ search: query });
+  const rows = result?.data ?? [];
+  const summary = result?.meta.summary;
   const pages = Math.max(1, Math.ceil(rows.length / APP_CONFIG.devicesPageSize));
   const currentPage = Math.min(page, pages);
   const visible = rows.slice(
@@ -60,10 +42,10 @@ export function DevicesPage() {
 
       <div className="mx-auto flex h-full min-h-0 w-full max-w-[1600px] flex-col">
         <div className="mb-6 grid shrink-0 grid-cols-2 gap-3 md:mb-10 xl:mb-12 xl:grid-cols-4">
-          <KpiCard label="کل درگاه‌ها" value={summary.total} icon={RadioTower} tone="bg-slate-100 text-slate-700" />
-          <KpiCard label="درگاه‌های فعال" value={summary.active} icon={Wifi} tone="bg-teal-50 text-teal-600" />
-          <KpiCard label="درگاه‌های دارای هشدار" value={summary.warnings} icon={TriangleAlert} tone="bg-amber-50 text-amber-600" />
-          <KpiCard label="درگاه‌های دارای خطا" value={summary.errors} icon={CircleX} tone="bg-red-50 text-red-600" />
+          <KpiCard label="کل درگاه‌ها" value={summary?.total ?? 0} icon={RadioTower} tone="bg-slate-100 text-slate-700" />
+          <KpiCard label="درگاه‌های فعال" value={summary?.online ?? 0} icon={Wifi} tone="bg-teal-50 text-teal-600" />
+          <KpiCard label="درگاه‌های دارای هشدار" value={summary?.warnings ?? 0} icon={TriangleAlert} tone="bg-amber-50 text-amber-600" />
+          <KpiCard label="درگاه‌های دارای خطا" value={summary?.errors ?? 0} icon={CircleX} tone="bg-red-50 text-red-600" />
         </div>
         <section className="surface-panel flex min-h-0 flex-1 flex-col overflow-hidden">
           <div className="shrink-0 border-b border-gray-200 px-5 py-4 lg:px-6">

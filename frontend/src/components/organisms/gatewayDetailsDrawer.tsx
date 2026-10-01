@@ -3,8 +3,8 @@ import { Battery, Clock3, ExternalLink, MapPin, PlugZap, Signal, Thermometer, X 
 import { useNavigate } from 'react-router-dom';
 import type { Alert, Device } from '@/types';
 import { Button } from '@/components/atoms/button';
-import { StatusBadge } from '@/components/atoms/status-badge';
-import { GatewayAlertsContent } from '@/components/organisms/gateway-alerts-panel';
+import { StatusBadge } from '@/components/atoms/statusBadge';
+import { GatewayAlertsContent } from '@/components/organisms/gatewayAlertsPanel';
 import { eventLabel, fa, faNumber } from '@/lib/i18n';
 import { relativeTime } from '@/lib/utils';
 
