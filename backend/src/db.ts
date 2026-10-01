@@ -1,8 +1,12 @@
 import { Pool } from "pg";
-import type { Device } from "@sentinel/shared";
+import type { Device } from "./types.js";
 import { config } from "./config.js";
 
-const pool = config.databaseUrl ? new Pool({ connectionString: config.databaseUrl }) : null;
+const pool = config.databaseUrl
+  ? new Pool({ connectionString: config.databaseUrl, max: 10, idleTimeoutMillis: 30_000, connectionTimeoutMillis: 5_000 })
+  : null;
+
+pool?.on("error", (error) => console.error("Unexpected PostgreSQL pool error", error));
 
 export async function initializeDatabase(seed: Device[]) {
   if (!pool) return;

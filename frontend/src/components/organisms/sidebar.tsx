@@ -1,3 +1,53 @@
-import{Activity,AlertTriangle,Map,PanelLeftClose,RadioTower,Settings}from"lucide-react";import{NavLink}from"react-router-dom";import{cn}from"@/lib/utils";
-const items=[{to:"/",label:"Live map",icon:Map},{to:"/devices",label:"Gateways",icon:RadioTower},{to:"/alerts",label:"Alerts",icon:AlertTriangle}];
-export function Sidebar(){return <aside className="fixed bottom-3 left-3 top-3 z-[1100] hidden w-[76px] flex-col items-center rounded-[22px] bg-[#071521]/95 py-4 shadow-2xl ring-1 ring-white/10 backdrop-blur-xl md:flex"><div className="grid h-11 w-11 place-items-center rounded-2xl bg-cyan-400 text-slate-950"><Activity size={23} strokeWidth={2.7}/></div><nav className="mt-8 flex w-full flex-1 flex-col gap-2 px-2">{items.map(({to,label,icon:Icon})=><NavLink key={to} to={to} end={to==="/"} title={label} className={({isActive})=>cn("group relative grid h-12 place-items-center rounded-xl text-slate-500 transition hover:bg-white/5 hover:text-slate-200",isActive&&"bg-cyan-400/12 text-cyan-300")}><Icon size={20}/><span className="pointer-events-none absolute left-[58px] hidden whitespace-nowrap rounded-lg bg-slate-950 px-2 py-1 text-xs text-white shadow-lg group-hover:block">{label}</span></NavLink>)}</nav><button title="Settings" className="grid h-11 w-11 place-items-center rounded-xl text-slate-500 hover:bg-white/5 hover:text-white"><Settings size={19}/></button><button title="Collapse navigation" className="mt-1 grid h-11 w-11 place-items-center rounded-xl text-slate-500 hover:bg-white/5 hover:text-white"><PanelLeftClose size={19}/></button></aside>}
+import { Map, RadioTower } from 'lucide-react';
+import { NavLink } from 'react-router-dom';
+import { cn } from '@/lib/utils';
+import { ROUTES } from '@/routes/paths';
+import { fa } from '@/lib/i18n';
+
+/**
+ * Renders the primary application navigation sidebar.
+ * @component
+ * @returns {JSX.Element} The application sidebar.
+ */
+
+export function Sidebar() {
+  return (
+    <aside className="fixed bottom-3 left-3 right-3 z-1100 flex h-16 items-center rounded-2xl border border-gray-200 bg-white/95 px-2 shadow-lg backdrop-blur md:bottom-3 md:left-auto md:top-3 md:h-auto md:w-14 md:flex-col md:rounded-2xl md:py-3">
+      <nav className="flex w-full flex-1 items-center gap-2 md:flex-col md:items-stretch md:px-1">
+        <NavLink
+          to={ROUTES.HOME}
+          end
+          title={fa.nav.map}
+          className={({ isActive }) =>
+            cn(
+              'group relative flex h-11 flex-1 items-center justify-center gap-2 rounded-xl text-gray-500 transition hover:bg-gray-100 hover:text-gray-800 md:h-10 md:flex-none',
+              isActive && 'bg-teal-50 font-semibold text-teal-700'
+            )
+          }
+        >
+          <Map size={18} />
+          <span className="text-xs md:hidden">{fa.nav.map}</span>
+          <span className="pointer-events-none absolute right-11 hidden whitespace-nowrap rounded-lg bg-gray-900 px-2 py-1 text-xs text-white shadow-md group-hover:block">
+            {fa.nav.map}
+          </span>
+        </NavLink>
+        <NavLink
+          to={ROUTES.DEVICES}
+          title={fa.nav.devices}
+          className={({ isActive }) =>
+            cn(
+              'group relative flex h-11 flex-1 items-center justify-center gap-2 rounded-xl text-gray-500 transition hover:bg-gray-100 hover:text-gray-800 md:h-10 md:flex-none',
+              isActive && 'bg-teal-50 font-semibold text-teal-700'
+            )
+          }
+        >
+          <RadioTower size={18} />
+          <span className="text-xs md:hidden">{fa.nav.devices}</span>
+          <span className="pointer-events-none absolute right-11 hidden whitespace-nowrap rounded-lg bg-gray-900 px-2 py-1 text-xs text-white shadow-md group-hover:block">
+            {fa.nav.devices}
+          </span>
+        </NavLink>
+      </nav>
+    </aside>
+  );
+}

@@ -1,0 +1,42 @@
+import { createBrowserRouter } from 'react-router-dom';
+import { App } from '@/App';
+import { ROUTES } from '@/routes/paths';
+import { Loading } from '@/components/atoms/loading';
+import { fa } from '@/lib/i18n';
+
+export const router = createBrowserRouter([
+  {
+    element: <App />,
+    HydrateFallback: () => <Loading className="h-screen bg-gray-50" label={fa.map.loading} />,
+    children: [
+      {
+        path: ROUTES.HOME,
+        lazy: async () => {
+          const { MapPage } = await import('@/pages/mapPage');
+          return { Component: MapPage };
+        },
+      },
+      {
+        path: ROUTES.DEVICES,
+        lazy: async () => {
+          const { DevicesPage } = await import('@/pages/devicePage');
+          return { Component: DevicesPage };
+        },
+      },
+      {
+        path: ROUTES.DEVICE_DETAILS,
+        lazy: async () => {
+          const { DeviceDetailsPage } = await import('@/pages/deviceDetailPage');
+          return { Component: DeviceDetailsPage };
+        },
+      },
+      {
+        path: '*',
+        lazy: async () => {
+          const { NotFoundPage } = await import('@/pages/notFoundPage');
+          return { Component: NotFoundPage };
+        },
+      },
+    ],
+  },
+]);

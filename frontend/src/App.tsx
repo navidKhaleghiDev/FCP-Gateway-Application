@@ -1,1 +1,23 @@
-import{lazy,Suspense}from"react";import{Route,Routes}from"react-router-dom";import{Sidebar}from"@/components/organisms/sidebar";import{Topbar}from"@/components/organisms/topbar";const MapPage=lazy(()=>import("@/pages/map-page").then(m=>({default:m.MapPage})));const DevicesPage=lazy(()=>import("@/pages/devices-page").then(m=>({default:m.DevicesPage})));const DeviceDetailsPage=lazy(()=>import("@/pages/device-details-page").then(m=>({default:m.DeviceDetailsPage})));const AlertsPage=lazy(()=>import("@/pages/alerts-page").then(m=>({default:m.AlertsPage})));export default function App(){return <><Sidebar/><Topbar/><Suspense fallback={<div className="grid h-screen place-items-center text-sm text-cyan-300">Loading operations view…</div>}><Routes><Route path="/" element={<MapPage/>}/><Route path="/devices" element={<DevicesPage/>}/><Route path="/devices/:id" element={<DeviceDetailsPage/>}/><Route path="/alerts" element={<AlertsPage/>}/><Route path="*" element={<MapPage/>}/></Routes></Suspense></>}
+import { Suspense } from 'react';
+import { Outlet } from 'react-router-dom';
+
+import { Sidebar } from '@/components/organisms/sidebar';
+import { FloatingAlerts } from '@/components/organisms/floatingAlerts';
+import { Loading } from '@/components/atoms/loading';
+import { fa } from '@/lib/i18n';
+import { useSocketEvent } from '@/services/useSocketEvent';
+
+import { NuqsAdapter } from 'nuqs/adapters/react-router/v7';
+
+export function App() {
+  useSocketEvent();
+  return (
+    <NuqsAdapter>
+      <Sidebar />
+      <FloatingAlerts />
+      <Suspense fallback={<Loading className="h-screen bg-gray-50" label={fa.map.loading} />}>
+        <Outlet />
+      </Suspense>
+    </NuqsAdapter>
+  );
+}
