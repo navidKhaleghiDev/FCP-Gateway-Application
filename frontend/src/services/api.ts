@@ -1,36 +1,28 @@
-import type { Alert, ApiResponse, Device, DeviceListResponse, EventType } from '@/types';
+import { useMemo } from 'react';
+import type {
+  Alert,
+  AlertListParams,
+  ApiResponse,
+  Device,
+  DeviceListParams,
+  DeviceListResponse,
+  EventType,
+} from '@/types';
 import { useQuery } from '@tanstack/react-query';
 import { http } from '@/services/http';
-import { API_ENDPOINTS } from '@/services/endpoints';
+import { E_ALERTS, E_DEVICES, E_DEVICES_BY_ID, E_SIMULATE } from '@/services/endpoints';
 
 export { http, http as api } from '@/services/http';
-
-export interface DeviceListParams {
-  search?: string;
-  filter?: 'all' | 'online' | 'urgent' | 'faults' | 'attention';
-  status?: 'all' | 'online' | 'offline';
-  priority?: 'all' | 'normal' | 'warning' | 'urgent';
-}
-export interface AlertListParams {
-  search?: string;
-  deviceId?: string;
-  status?: 'all' | 'active' | 'resolved';
-  kind?: 'all' | 'urgent_alarm' | 'technical_fault' | 'power_failure';
-  priority?: 'all' | 'warning' | 'urgent';
-}
 
 export const DEVICES_KEY = 'devices';
 export const ALERTS_KEY = 'alerts';
 
 /** Queries a device list with its filters included in the cache key. */
-export function useGetDevices(
-  params: DeviceListParams = {},
-  options: { enabled?: boolean } = {}
-) {
+export function useGetDevices(params: DeviceListParams = {}, options: { enabled?: boolean } = {}) {
   return useQuery({
     queryKey: [DEVICES_KEY, params],
     queryFn: async (): Promise<DeviceListResponse> =>
-      (await http.get<DeviceListResponse>(API_ENDPOINTS.devices, { params })).data,
+      (await http.get<DeviceListResponse>(E_DEVICES, { params })).data,
     enabled: options.enabled,
   });
 }
@@ -40,20 +32,25 @@ export function useGetAlerts(
   params: AlertListParams = {},
   options: { enabled?: boolean; session?: number } = {}
 ) {
-  return useQuery({
+  const query = useQuery({
     queryKey: [ALERTS_KEY, options.session ?? 0, params],
     queryFn: async (): Promise<Alert[]> =>
-      (await http.get<ApiResponse<Alert[]>>(API_ENDPOINTS.alerts, { params })).data.data,
+      (await http.get<ApiResponse<Alert[]>>(E_ALERTS, { params })).data.data,
     enabled: options.enabled,
   });
+  const activeCount = useMemo(
+    () => query.data?.filter((alert) => !alert.resolvedAt).length ?? 0,
+    [query.data]
+  );
+  return { ...query, activeCount };
 }
 
 /** Imperative requests used outside React Query. */
 export const deviceApi = {
   detail: (id: string) =>
-    http.get<ApiResponse<Device>>(API_ENDPOINTS.device(id)).then((response) => response.data.data),
+    http.get<ApiResponse<Device>>(E_DEVICES_BY_ID(id)).then((response) => response.data.data),
   simulate: (id: string, eventType: EventType) =>
     http
-      .post<ApiResponse<Device>>(API_ENDPOINTS.simulate(id), { eventType })
+      .post<ApiResponse<Device>>(E_SIMULATE(id), { eventType })
       .then((response) => response.data.data),
 };

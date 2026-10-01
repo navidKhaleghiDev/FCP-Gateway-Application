@@ -2,10 +2,12 @@ import { create } from 'zustand';
 import type { DeviceState } from '@/types';
 
 
-/** Stores live devices and connection state shared with WebSocket callbacks. */
+/** Stores live devices, connection state, and alert panel state. */
 export const useDeviceStore = create<DeviceState>((set) => ({
   devices: {},
   latestAlert: null,
+  alertsOpen: false,
+  alertsOpenSession: 0,
   connection: 'connecting',
   selectedId: null,
   /** Merges REST results without replacing newer WebSocket versions. */
@@ -32,6 +34,10 @@ export const useDeviceStore = create<DeviceState>((set) => ({
     if (!state.latestAlert || alert.timestamp >= state.latestAlert.timestamp) return { latestAlert: alert };
     return state;
   }),
+  /** Opens the alert panel and starts a fresh query session. */
+  openAlerts: () => set((state) => ({ alertsOpen: true, alertsOpenSession: state.alertsOpenSession + 1 })),
+  /** Closes the alert panel. */
+  closeAlerts: () => set({ alertsOpen: false }),
   /** Updates the connection indicator. */
   setConnection: (connection) => set({ connection }),
   /** Selects a map device, including from a toast callback. */

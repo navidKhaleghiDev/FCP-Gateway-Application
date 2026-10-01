@@ -2,7 +2,6 @@ import { Bell, CloudOff, RefreshCw, Wifi } from 'lucide-react';
 import { useLocation, matchPath } from 'react-router-dom';
 import { ROUTES } from '@/routes/paths';
 import { IconButton } from '@/components/atoms/iconButton';
-import { useAlertsPanel } from '@/app/alertsContext';
 import { useDeviceStore } from '@/stores/deviceStore';
 import { cn } from '@/lib/utils';
 import { fa } from '@/lib/i18n';
@@ -21,7 +20,7 @@ const routeTitles = [
 
 export function Navbar() {
   const { connection, latestAlert } = useDeviceStore((s) => s);
-  const { openAlerts } = useAlertsPanel();
+  const openAlerts = useDeviceStore((state) => state.openAlerts);
 
   const location = useLocation();
 

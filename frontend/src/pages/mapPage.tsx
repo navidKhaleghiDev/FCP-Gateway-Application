@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { useGetAlerts, useGetDevices, type DeviceListParams } from '@/services/api';
+import { useGetAlerts, useGetDevices } from '@/services/api';
+import type { DeviceListParams } from '@/types';
 import { useDebounce } from '@/hooks/useDebounce';
 import { APP_CONFIG } from '@/config/app';
 import { AlertTriangle, Battery, Clock3, PlugZap, RadioTower, Search, ShieldAlert, Signal, Thermometer, Wifi, X } from 'lucide-react';

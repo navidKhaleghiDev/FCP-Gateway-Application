@@ -80,11 +80,29 @@ export type ConnectionState = 'connecting' | 'connected' | 'reconnecting' | 'off
 export interface DeviceState {
   devices: Record<string, Device>;
   latestAlert: Alert | null;
+  alertsOpen: boolean;
+  alertsOpenSession: number;
   connection: ConnectionState;
   selectedId: string | null;
   hydrate: (devices: Device[]) => void;
   upsertDevice: (device: Device) => void;
   setLatestAlert: (alert: Alert) => void;
+  openAlerts: () => void;
+  closeAlerts: () => void;
   setConnection: (state: ConnectionState) => void;
   select: (id: string | null) => void;
+}
+
+export interface DeviceListParams {
+  search?: string;
+  filter?: 'all' | 'online' | 'urgent' | 'faults' | 'attention';
+  status?: 'all' | 'online' | 'offline';
+  priority?: 'all' | 'normal' | 'warning' | 'urgent';
+}
+export interface AlertListParams {
+  search?: string;
+  deviceId?: string;
+  status?: 'all' | 'active' | 'resolved';
+  kind?: 'all' | 'urgent_alarm' | 'technical_fault' | 'power_failure';
+  priority?: 'all' | 'warning' | 'urgent';
 }
