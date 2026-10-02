@@ -38,6 +38,7 @@ export function useGetAlerts(
       (await http.get<ApiResponse<Alert[]>>(E_ALERTS, { params })).data.data,
     enabled: options.enabled,
   });
+
   const activeCount = useMemo(
     () => query.data?.filter((alert) => !alert.resolvedAt).length ?? 0,
     [query.data]

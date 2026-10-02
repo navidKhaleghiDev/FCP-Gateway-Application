@@ -4,7 +4,7 @@ import { Button } from '@/components/atoms/button';
 import { Loading } from '@/components/atoms/loading';
 import { fa } from '@/lib/i18n';
 
-interface LoadingWrapperProps {
+interface IProps {
   children: ReactNode;
   isLoading: boolean;
   isError?: boolean;
@@ -26,7 +26,6 @@ interface LoadingWrapperProps {
  * @returns {JSX.Element} Content or the matching async state.
  */
 
-
 export function LoadingWrapper({
   children,
   isLoading,
@@ -34,10 +33,14 @@ export function LoadingWrapper({
   onRetry,
   loadingLabel = fa.map.loading,
   compact = false,
-}: LoadingWrapperProps) {
+}: IProps) {
   if (isError) {
     return (
-      <div className={compact ? "grid min-h-32 place-items-center" : "grid min-h-screen place-items-center"}>
+      <div
+        className={
+          compact ? 'grid min-h-32 place-items-center' : 'grid min-h-screen place-items-center'
+        }
+      >
         <div className="text-center">
           <AlertTriangle className="mx-auto mb-3 text-red-500" />
           <h2>{fa.map.loadError}</h2>
@@ -48,7 +51,9 @@ export function LoadingWrapper({
   }
 
   if (isLoading) {
-    return <Loading className={compact ? "min-h-32" : "min-h-screen bg-gray-50"} label={loadingLabel} />;
+    return (
+      <Loading className={compact ? 'min-h-32' : 'min-h-screen bg-gray-50'} label={loadingLabel} />
+    );
   }
 
   return children;
