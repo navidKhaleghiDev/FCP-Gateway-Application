@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: fcp-gateway-api
+    runtime: node
+    plan: free
+    branch: main
+    buildCommand: npm ci && npm run build:backend
+    startCommand: npm run start -w backend
+    healthCheckPath: /api/health
+    autoDeployTrigger: checksPass
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: CLIENT_URL
+        sync: false

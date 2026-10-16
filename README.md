@@ -68,6 +68,17 @@ docker compose ps  # Show container status
 docker compose logs backend frontend postgres
 ```
 
+## Deploy to Vercel and Render
+
+The Vite frontend runs on Vercel. The Express API and WebSocket simulator run as a Render web service because they need a persistent server process.
+
+1. Connect this GitHub repository to Render as a Blueprint using render.yaml. The Blueprint builds the backend from the monorepo and deploys main after CI checks pass. Set CLIENT_URL to the exact HTTPS origin of the Vercel production site, without a trailing slash.
+2. Connect the same GitHub repository to Vercel as a project. Leave its Root Directory at the repository root; vercel.json builds the frontend workspace into frontend/dist and handles client-side routes.
+3. In Vercel project settings, set VITE_API_URL and VITE_SOCKET_URL for Production to the Render service's HTTPS origin (for example, https://fcp-gateway-api.onrender.com). These are public browser configuration values. Redeploy after changing them.
+4. Set Vercel's Production Branch to main and keep Git deployments enabled. GitHub Actions runs type checking and builds on pull requests and pushes to main; Vercel deploys each push to main. Render deploys after the GitHub checks pass.
+5. Check /api/health on Render and open the Vercel site. Verify that gateways load and the connection indicator becomes connected.
+
+The Blueprint uses Render's free plan to avoid automatic charges. Free web services sleep after inactivity, so live telemetry pauses until the service wakes. Choose an always-on plan for continuous monitoring. PostgreSQL is optional; add DATABASE_URL in Render if gateway identity and location must persist across restarts. The simulator's live state remains in memory.
 ## Environment variables
 
 | Variable | Default | Purpose |
